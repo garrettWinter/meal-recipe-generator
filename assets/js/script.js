@@ -1,10 +1,8 @@
 console.log("Testing Connection");
 
-var mainArray = [];
 
 /* This will need to be run manauly */
 function recipeAPITesting (event){
-    mainArray = [];
     console.log("Testing has been trigged")
 
     /* Setting the URL and triggering the GET API */
@@ -14,8 +12,41 @@ function recipeAPITesting (event){
     return response.json();
   })
   .then(function (data) {
-    console.log('----------\n API Response Data \n----------');
+    console.log('----------\n Recipe API Response Data \n----------');
     console.log(data);
-    mainArray = data;
+   });
+};
+
+
+
+/*
+
+Giphy Developers
+
+API KEy - 4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC
+
+https://developers.giphy.com/docs/api/endpoint#random
+api.giphy.com/v1/gifs/random
+
+api_key: string(required)
+tag: string
+rating: string
+
+https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=burrito&rating=g
+
+*/
+
+function giphyAPITesting (event){
+    console.log("Testing has been trigged")
+
+    /* Setting the URL and triggering the GET API */
+    var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=mediterranean%20food&rating=pg'
+    fetch(requestUrl)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log('----------\n Giphy API Response Data \n----------');
+    console.log(data);
    });
 };
