@@ -14,3 +14,10 @@
     height: 200vh;
   }
 }
+.button.is-large {
+  margin-left: -22px;
+  font-size: 1.5rem;
+}
+.hidden {
+  display: none;
+}

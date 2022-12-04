@@ -79,11 +79,13 @@ var dropdownItem_2_2 = document.getElementById("dropdown-item-2-2");
 var dropdownItem_2_3 = document.getElementById("dropdown-item-2-3");
 var dropdownItem_2_4 = document.getElementById("dropdown-item-2-4");
 var dropdownItem_2_5 = document.getElementById("dropdown-item-2-5");
+var dropdownItem_2_6 = document.getElementById("dropdown-item-2-6");
 var dropdownItem_3_1 = document.getElementById("dropdown-item-3-1");
 var dropdownItem_3_2 = document.getElementById("dropdown-item-3-2");
 var dropdownItem_3_3 = document.getElementById("dropdown-item-3-3");
 var dropdownItem_3_4 = document.getElementById("dropdown-item-3-4");
 var dropdownItem_3_5 = document.getElementById("dropdown-item-3-5");
+var dropdownItem_3_6 = document.getElementById("dropdown-item-3-6");
 var dropdownBtn1 = document.getElementById("dropdown-btn1-html");
 var dropdownBtn2 = document.getElementById("dropdown-btn2-html");
 var dropdownBtn3 = document.getElementById("dropdown-btn3-html");
@@ -132,6 +134,9 @@ dropdownItem_2_4.addEventListener("click", function () {
 dropdownItem_2_5.addEventListener("click", function () {
   dropdownBtn2.innerHTML = dropdownItem_2_5.innerHTML;
 });
+dropdownItem_2_6.addEventListener("click", function () {
+  dropdownBtn2.innerHTML = dropdownItem_2_6.innerHTML;
+});
 dropdownItem_3_1.addEventListener("click", function () {
   dropdownBtn3.innerHTML = dropdownItem_3_1.innerHTML;
 });
@@ -146,6 +151,9 @@ dropdownItem_3_4.addEventListener("click", function () {
 });
 dropdownItem_3_5.addEventListener("click", function () {
   dropdownBtn3.innerHTML = dropdownItem_3_5.innerHTML;
+});
+dropdownItem_3_6.addEventListener("click", function () {
+  dropdownBtn3.innerHTML = dropdownItem_3_6.innerHTML;
 });
 
 /*----------------------------JS for the dropdown buttons--------------------------*/
