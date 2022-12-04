@@ -1,8 +1,16 @@
 .bg-image {
-  background-image: url(/teamproject1/assets/images/food.jpg);
+  background-image: url(/assets/images/food.jpg);
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   width: 100vw;
   height: 100vh;
-  opacity: 0.9;
+}
+@media (max-width: 780px) {
+  .bg-image {
+    background-image: url(/assets/images/food.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    width: 100vw;
+    height: 200vh;
+  }
 }

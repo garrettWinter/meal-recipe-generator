@@ -73,6 +73,7 @@ var dropdownItem_1_3 = document.getElementById("dropdown-item-1-3");
 var dropdownItem_1_4 = document.getElementById("dropdown-item-1-4");
 var dropdownItem_1_5 = document.getElementById("dropdown-item-1-5");
 var dropdownItem_1_6 = document.getElementById("dropdown-item-1-6");
+var dropdownItem_1_7 = document.getElementById("dropdown-item-1-7");
 var dropdownItem_2_1 = document.getElementById("dropdown-item-2-1");
 var dropdownItem_2_2 = document.getElementById("dropdown-item-2-2");
 var dropdownItem_2_3 = document.getElementById("dropdown-item-2-3");
@@ -112,6 +113,9 @@ dropdownItem_1_5.addEventListener("click", function () {
 });
 dropdownItem_1_6.addEventListener("click", function () {
   dropdownBtn1.innerHTML = dropdownItem_1_6.innerHTML;
+});
+dropdownItem_1_7.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_7.innerHTML;
 });
 dropdownItem_2_1.addEventListener("click", function () {
   dropdownBtn2.innerHTML = dropdownItem_2_1.innerHTML;
