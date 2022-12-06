@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Budget Meals</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-  </head>
-  <body>
-    <div class="bg-image">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget Meals</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+</head>
+
+<body>
+  <div class="bg-image">
     <br>
-    <header>   
-      <h1 id = "test"class="is-size-1 title has-text-centered has-text-white">Welcome to Budget Friendly Meals</h1>
+    <header>
+      <h1 id="test" class="is-size-1 title has-text-centered has-text-white">Welcome to Budget Friendly Meals</h1>
       <br>
       <p class="is-size-3  has-text-centered has-text-white">
         Input your ingredients and select your desired food preferences below to
@@ -23,167 +25,168 @@
       <br>
     </header>
     <br>
-<div class="columns">
+    <div class="columns">
       <div class="column">
         <div class="card">
-  <div class="card-content has-background-grey-dark" >
-    <h2 class="label has-text-white is-size-3">Select your preferences below</h2>
-    <br>
-    <ul>
-      <li>
-<h3 class="label has-text-white is-size-5">Which type of cuisine would you like?</h3>
-<br>
-<div class="dropdown" id="dropdown-1">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-      <span id="dropdown-btn1-html">Any</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu1" role="menu">
-    <div class="dropdown-content">
-      <a href="#" class="dropdown-item" id="dropdown-item-1-1">
-        Any
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-2">
-        Japanese Cuisine
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-3">
-        Indian Cuisine
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-4">
-        Italian Cuisine
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-5">
-        Spanish Cuisine
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-6">
-        French Cuisine
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-1-7">
-        Chinese Cuisine
-      </a>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-</li>
-      <li>
-<h3 class="label has-text-white is-size-5">Which type of food would you like?</h3>
-<br>
-<div class="dropdown" id="dropdown-2">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-      <span id="dropdown-btn2-html">Any</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu2" role="menu">
-    <div class="dropdown-content">
-      <a href="#" class="dropdown-item" id="dropdown-item-2-1">
-        Any
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-2-2">
-        Breakfast
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-2-3">
-        Lunch
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-2-4">
-        Dinner
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-2-5">
-        Brunch
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-2-6">
-        Snack
-      </a>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-</li>
-      <li>
-<h3 class="label has-text-white is-size-5">How long would you like the cooking time to be?</h3>
-<br>
-<div class="dropdown" id="dropdown-3">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-      <span id="dropdown-btn3-html">Any</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-    <div class="dropdown-content">
-      <a href="#" class="dropdown-item" id="dropdown-item-3-1">
-        Any
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-3-2">
-        0-20 min
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-3-3">
-        20-40 min
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-3-4">
-        40 min-1 hour
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-3-5">
-        1-2 hours
-      </a>
-      <a href="#" class="dropdown-item" id="dropdown-item-3-6">
-        2 hours +
-      </a>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-</li>
-<h3 class="label has-text-white is-size-5">Enter the ingredients you would like in your dish.</h3>
+          <div class="card-content has-background-grey-dark">
+            <h2 class="label has-text-white is-size-3">Select your preferences below</h2>
+            <br>
+            <ul>
+              <li>
+                <h3 class="label has-text-white is-size-5">Which type of cuisine would you like?</h3>
+                <br>
+                <div class="dropdown" id="dropdown-1">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                      <span id="dropdown-btn1-html">Any</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu1" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-1">
+                        Any
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-2">
+                        Japanese Cuisine
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-3">
+                        Indian Cuisine
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-4">
+                        Italian Cuisine
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-5">
+                        Spanish Cuisine
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-6">
+                        French Cuisine
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-1-7">
+                        Chinese Cuisine
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+              </li>
+              <li>
+                <h3 class="label has-text-white is-size-5">Which type of food would you like?</h3>
+                <br>
+                <div class="dropdown" id="dropdown-2">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                      <span id="dropdown-btn2-html">Any</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-1">
+                        Any
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-2">
+                        Breakfast
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-3">
+                        Lunch
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-4">
+                        Dinner
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-5">
+                        Brunch
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-2-6">
+                        Snack
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+              </li>
+              <li>
+                <h3 class="label has-text-white is-size-5">How long would you like the cooking time to be?</h3>
+                <br>
+                <div class="dropdown" id="dropdown-3">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                      <span id="dropdown-btn3-html">Any</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-1">
+                        Any
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-2">
+                        0-20 min
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-3">
+                        20-40 min
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-4">
+                        40 min-1 hour
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-5">
+                        1-2 hours
+                      </a>
+                      <a href="#" class="dropdown-item" id="dropdown-item-3-6">
+                        2 hours +
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+              </li>
+              <h3 class="label has-text-white is-size-5">Enter the ingredients you would like in your dish.</h3>
 
-<li>
-  <input class="input" type="text" placeholder="Ingredient #1">
-</li>
-<br>
-<li>
-  <input class="input" type="text" placeholder="Ingredient #2">
-</li>
-<br>
-<li>
-  <input class="input" type="text" placeholder="Ingredient #3">
-</li>
-<br>
-<li>
-  <input class="input" type="text" placeholder="Ingredient #4">
-</li>
-  </ul>
-<br>
-<br>
-<li>
-<button class="button is-large has-background-light">Submit</button>
-</li>
-</div>
-</div>
-</div>
-<div class="column">
-<div class="card">
-<div class="card-content has-background-grey-dark">
-<div class="content">
-  <h2 class="label has-text-white is-size-3">Results for corresponding recipes will appear below</h2>
-</div>
-</div>
-</div>
-</div>
- </div>
-</div>
-<script src="./assets/js/script.js"></script>
-    
+              <li>
+                <input class="input" type="text" placeholder="Ingredient #1">
+              </li>
+              <br>
+              <li>
+                <input class="input" type="text" placeholder="Ingredient #2">
+              </li>
+              <br>
+              <li>
+                <input class="input" type="text" placeholder="Ingredient #3">
+              </li>
+              <br>
+              <li>
+                <input class="input" type="text" placeholder="Ingredient #4">
+              </li>
+            </ul>
+            <br>
+            <br>
+            <li>
+              <button class="button is-large has-background-light">Submit</button>
+            </li>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="card-content has-background-grey-dark">
+          <div class="content">
+            <h2 class="label has-text-white is-size-3">Results for corresponding recipes will appear below</h2>
+            <ul id="receipeList">
+              <!-- Recipe List is generated via Java Script -->
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
+  <script src="./assets/js/script.js"></script>
+
 </html>
