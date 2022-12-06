@@ -1,10 +1,11 @@
 console.log("Testing Connection");
 var recipeArray = [];
+var firstLoad = true;
+var receipeList = document.querySelector('#receipeList')
 
 /* This will need to be run manauly */
 function recipeAPITesting(event) {
   console.log("Testing has been trigged");
-
   /* Setting the URL and triggering the GET API */
   var requestUrl =
     "https://api.edamam.com/api/recipes/v2?type=public&q=chicken%20rice%20tomato&app_id=9f8e9bb4&app_key=e6371ff056c6f2217c6e6095d104cdeb";
@@ -157,3 +158,34 @@ dropdownItem_3_6.addEventListener("click", function () {
 });
 
 /*----------------------------JS for the dropdown buttons--------------------------*/
+
+/* This function will take the data from reciepe (Edamam) API and display it onscreen. */
+function recipeDisplay() {
+  console.log("recipeDisplay has run");
+  console.log(recipeArray);
+  console.log("Length of Recipe Array is: " + recipeArray.length)
+  for (let i = 0; i < recipeArray.length; i++) {
+    //   /* Element Creation for recipies*/
+    var createList = document.createElement('li');
+    var createImg = document.createElement('img');
+    var createA = document.createElement('a');
+    var createP = document.createElement('p');
+    //   /* Element Updates */
+    createList.classList.add("receipeRow");
+    createImg.setAttribute('src', recipeArray[i].recipeLoop.imageThumbnail);
+    createImg.setAttribute('alt', recipeArray[i].recipeLoop.recipeName);
+    createImg.setAttribute('title', recipeArray[i].recipeLoop.recipeName);
+    createA.setAttribute('href', recipeArray[i].recipeLoop.url);
+    createA.setAttribute('target', '_blank');
+    /* Element Appending */
+    receipeList.appendChild(createList);
+    createList.appendChild(createImg);
+    createList.appendChild(createA);
+    createA.textContent = recipeArray[i].recipeLoop.recipeName;
+    createList.appendChild(createP);
+    createP.textContent = recipeArray[i].recipeLoop.cuisineType;
+   }
+} 
+
+
+ 
