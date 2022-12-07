@@ -10,6 +10,18 @@ var dropdownItem_1_4 = document.getElementById("dropdown-item-1-4");
 var dropdownItem_1_5 = document.getElementById("dropdown-item-1-5");
 var dropdownItem_1_6 = document.getElementById("dropdown-item-1-6");
 var dropdownItem_1_7 = document.getElementById("dropdown-item-1-7");
+var dropdownItem_1_8 = document.getElementById("dropdown-item-1-8");
+var dropdownItem_1_9 = document.getElementById("dropdown-item-1-9");
+var dropdownItem_1_10 = document.getElementById("dropdown-item-1-10");
+var dropdownItem_1_11 = document.getElementById("dropdown-item-1-11");
+var dropdownItem_1_12 = document.getElementById("dropdown-item-1-12");
+var dropdownItem_1_13 = document.getElementById("dropdown-item-1-13");
+var dropdownItem_1_14 = document.getElementById("dropdown-item-1-14");
+var dropdownItem_1_15 = document.getElementById("dropdown-item-1-15");
+var dropdownItem_1_16 = document.getElementById("dropdown-item-1-16");
+var dropdownItem_1_17 = document.getElementById("dropdown-item-1-17");
+var dropdownItem_1_18 = document.getElementById("dropdown-item-1-18");
+var dropdownItem_1_19 = document.getElementById("dropdown-item-1-19");
 var dropdownItem_2_1 = document.getElementById("dropdown-item-2-1");
 var dropdownItem_2_2 = document.getElementById("dropdown-item-2-2");
 var dropdownItem_2_3 = document.getElementById("dropdown-item-2-3");
@@ -206,6 +218,42 @@ dropdownItem_1_6.addEventListener("click", function () {
 });
 dropdownItem_1_7.addEventListener("click", function () {
   dropdownBtn1.innerHTML = dropdownItem_1_7.innerHTML;
+});
+dropdownItem_1_8.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_8.innerHTML;
+});
+dropdownItem_1_9.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_9.innerHTML;
+});
+dropdownItem_1_10.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_10.innerHTML;
+});
+dropdownItem_1_11.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_11.innerHTML;
+});
+dropdownItem_1_12.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_12.innerHTML;
+});
+dropdownItem_1_13.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_13.innerHTML;
+});
+dropdownItem_1_14.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_14.innerHTML;
+});
+dropdownItem_1_15.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_15.innerHTML;
+});
+dropdownItem_1_16.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_16.innerHTML;
+});
+dropdownItem_1_17.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_17.innerHTML;
+});
+dropdownItem_1_18.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_18.innerHTML;
+});
+dropdownItem_1_19.addEventListener("click", function () {
+  dropdownBtn1.innerHTML = dropdownItem_1_19.innerHTML;
 });
 dropdownItem_2_1.addEventListener("click", function () {
   dropdownBtn2.innerHTML = dropdownItem_2_1.innerHTML;
