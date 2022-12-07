@@ -1,7 +1,13 @@
 console.log("Testing Connection");
 var recipeArray = [];
 var firstLoad = true;
-var receipeList = document.querySelector('#receipeList')
+var receipeList = document.querySelector("#receipeList");
+var submitBtn = document.getElementById("submit-btn");
+var cuisineBtn = document.getAnimations("cuisine");
+var inputField1 = document.getElementById("input-field-1");
+var inputField2 = document.getElementById("input-field-2");
+var inputField3 = document.getElementById("input-field-3");
+var inputField4 = document.getElementById("input-field-4");
 
 /* This will need to be run manauly */
 function recipeAPITesting(event) {
@@ -163,20 +169,20 @@ dropdownItem_3_6.addEventListener("click", function () {
 function recipeDisplay() {
   console.log("recipeDisplay has run");
   console.log(recipeArray);
-  console.log("Length of Recipe Array is: " + recipeArray.length)
+  console.log("Length of Recipe Array is: " + recipeArray.length);
   for (let i = 0; i < recipeArray.length; i++) {
     //   /* Element Creation for recipies*/
-    var createList = document.createElement('li');
-    var createImg = document.createElement('img');
-    var createA = document.createElement('a');
-    var createP = document.createElement('p');
+    var createList = document.createElement("li");
+    var createImg = document.createElement("img");
+    var createA = document.createElement("a");
+    var createP = document.createElement("p");
     //   /* Element Updates */
     createList.classList.add("receipeRow");
-    createImg.setAttribute('src', recipeArray[i].recipeLoop.imageThumbnail);
-    createImg.setAttribute('alt', recipeArray[i].recipeLoop.recipeName);
-    createImg.setAttribute('title', recipeArray[i].recipeLoop.recipeName);
-    createA.setAttribute('href', recipeArray[i].recipeLoop.url);
-    createA.setAttribute('target', '_blank');
+    createImg.setAttribute("src", recipeArray[i].recipeLoop.imageThumbnail);
+    createImg.setAttribute("alt", recipeArray[i].recipeLoop.recipeName);
+    createImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
+    createA.setAttribute("href", recipeArray[i].recipeLoop.url);
+    createA.setAttribute("target", "_blank");
     /* Element Appending */
     receipeList.appendChild(createList);
     createList.appendChild(createImg);
@@ -184,8 +190,16 @@ function recipeDisplay() {
     createA.textContent = recipeArray[i].recipeLoop.recipeName;
     createList.appendChild(createP);
     createP.textContent = recipeArray[i].recipeLoop.cuisineType;
-   }
-} 
-
-
- 
+  }
+}
+submitBtn.addEventListener("click", function () {
+  console.log(dropdownBtn1.innerHTML);
+  console.log(dropdownBtn2.innerHTML);
+  console.log(dropdownBtn3.innerHTML);
+  console.log(inputField1.value);
+  console.log(inputField2.value);
+  console.log(inputField3.value);
+  console.log(inputField4.value);
+  var cuisineData = [dropdownBtn1.innerHTML];
+  localStorage.setItem("Cuisine_Data", cuisineData);
+});

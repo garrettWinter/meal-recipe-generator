@@ -1,5 +1,5 @@
 .bg-image {
-  background-image: url(/assets/images/food.jpg);
+  background-image: url(/teamproject1/assets/images/food.jpg);
   background-size: cover;
   background-repeat: repeat;
   width: 100vw;
@@ -7,7 +7,7 @@
 }
 @media (max-width: 780px) {
   .bg-image {
-    background-image: url(/assets/images/food.jpg);
+    background-image: url(/teamproject1/assets/images/food.jpg);
     background-size: cover;
     background-repeat: repeat;
     width: 100vw;
@@ -22,13 +22,12 @@
   display: none;
 }
 
-
-/* Temp CSS*/ 
-.cuisineType{
+/* Temp CSS*/
+.cuisineType {
   color: white;
 }
 
-.receipeRow{
+.receipeRow {
   /* display: flex; */
   align-items: center;
   color: white;

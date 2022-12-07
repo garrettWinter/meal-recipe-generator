@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Budget Meals</title>
-  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="/teamproject1/assets/css/style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
 </head>
@@ -37,7 +37,7 @@
                 <br>
                 <div class="dropdown" id="dropdown-1">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3" id="cuisine">
                       <span id="dropdown-btn1-html">Any</span>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -152,25 +152,25 @@
               <h3 class="label has-text-white is-size-5">Enter the ingredients you would like in your dish.</h3>
 
               <li>
-                <input class="input" type="text" placeholder="Ingredient #1">
+                <input class="input" type="text" placeholder="Ingredient #1" id = "input-field-1">
               </li>
               <br>
               <li>
-                <input class="input" type="text" placeholder="Ingredient #2">
+                <input class="input" type="text" placeholder="Ingredient #2" id = "input-field-2">
               </li>
               <br>
               <li>
-                <input class="input" type="text" placeholder="Ingredient #3">
+                <input class="input" type="text" placeholder="Ingredient #3" id = "input-field-3" >
               </li>
               <br>
               <li>
-                <input class="input" type="text" placeholder="Ingredient #4">
+                <input class="input" type="text" placeholder="Ingredient #4" id = "input-field-4">
               </li>
             </ul>
             <br>
             <br>
             <li>
-              <button class="button is-large has-background-light">Submit</button>
+              <button class="button is-large has-background-light" id="submit-btn">Submit</button>
             </li>
           </div>
         </div>
