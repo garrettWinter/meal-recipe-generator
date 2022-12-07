@@ -101,10 +101,7 @@ requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=pub
 requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
 }
 
-
-
-
-/* This will need to be run manauly */
+/* This function performs the Edamam API call to gather the recipe data and stores it locally */
 function edamamAPI(event) {
   console.log("edamamAPI has been trigged");
   edamamURLBuilder();
