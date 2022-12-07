@@ -114,13 +114,6 @@ function edamamAPI(event) {
     .then(function (data) {
       console.log("----------\n Recipe API Response Data \n----------");
       console.log(data);
-      console.log(
-        "----------\n Sample Recipe API Response data being stored \n----------"
-      );
-      console.log(data.hits[0].recipe.label); //Recipe Name
-      console.log(data.hits[0].recipe.cuisineType[0]); //CuisineType
-      console.log(data.hits[0].recipe.images.THUMBNAIL.url); //Image Thumbnail
-      console.log(data.hits[0].recipe.shareAs); //URL
       /* Clearning out old search data*/
       recipeArray = [];
        /* Data processing*/
@@ -246,12 +239,12 @@ dropdownItem_3_6.addEventListener("click", function () {
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
   console.log("recipeDisplay has run");
-      /* Clearing any previously made child elements */
-      if (recipeArrayLength > 0) {
-        for (let i = 0; i < recipeArrayLength; i++) {
-          receipeList.removeChild(receipeList.children[0]);
-        }
-    };
+  /* Clearing any previously made child elements */
+  if (recipeArrayLength > 0) {
+    for (let i = 0; i < recipeArrayLength; i++) {
+      receipeList.removeChild(receipeList.children[0]);
+    }
+  }
   recipeArrayLength = recipeArray.length;
   console.log("Length of Recipe Array is: " + recipeArrayLength)
   for (let i = 0; i < recipeArray.length; i++) {
@@ -274,7 +267,7 @@ function recipeDisplay() {
     createA.textContent = recipeArray[i].recipeLoop.recipeName;
     createList.appendChild(createP);
     createP.textContent = recipeArray[i].recipeLoop.cuisineType;
-   }
+  }
 } 
 
 
