@@ -28,6 +28,7 @@ var ingredient1Input = document.querySelector('#ingredient1');
 var ingredient2Input = document.querySelector('#ingredient2');
 var ingredient3Input = document.querySelector('#ingredient3');
 var ingredient4Input = document.querySelector('#ingredient4');
+var recipeArrayLength = 0;
 
 
 var recipeArray = [];
@@ -120,7 +121,9 @@ function edamamAPI(event) {
       console.log(data.hits[0].recipe.cuisineType[0]); //CuisineType
       console.log(data.hits[0].recipe.images.THUMBNAIL.url); //Image Thumbnail
       console.log(data.hits[0].recipe.shareAs); //URL
-      /* Data processing*/
+      /* Clearning out old search data*/
+      recipeArray = [];
+       /* Data processing*/
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
@@ -243,7 +246,14 @@ dropdownItem_3_6.addEventListener("click", function () {
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
   console.log("recipeDisplay has run");
-  console.log("Length of Recipe Array is: " + recipeArray.length)
+      /* Clearing any previously made child elements */
+      if (recipeArrayLength > 0) {
+        for (let i = 0; i < recipeArrayLength; i++) {
+          receipeList.removeChild(receipeList.children[0]);
+        }
+    };
+  recipeArrayLength = recipeArray.length;
+  console.log("Length of Recipe Array is: " + recipeArrayLength)
   for (let i = 0; i < recipeArray.length; i++) {
     //   /* Element Creation for recipies*/
     var createList = document.createElement('li');
