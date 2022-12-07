@@ -48,6 +48,9 @@ var ingredient4 = ingredient4Input.value;
 var ingredients = '';
 var requestUrl;
 
+/* Start of Giphy API Variables */
+ var fixedImg
+ var giphy = document.querySelector('#giphy');
 
 function edamamURLBuilder (){
 console.log("edamamURLBuilder has been trigged");
@@ -147,21 +150,28 @@ rating: string
 https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=burrito&rating=g
 */
 
-function giphyAPITesting(event) {
-  console.log("Testing has been trigged");
+var userInput = "breakfast";
+
+function giphyAPITesting (event){
+  console.log("Testing has been trigged")
 
   /* Setting the URL and triggering the GET API */
-  var requestUrl =
-    "https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=mediterranean%20food&rating=pg";
+  var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag='+userInput+'%20food&rating=pg'
   fetch(requestUrl)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log("----------\n Giphy API Response Data \n----------");
-      console.log(data);
-    });
-}
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  console.log('----------\n Giphy API Response Data \n----------');
+  console.log(data);
+  console.log(data.data.url);
+  fixedImg= data.data.images.fixed_width.url;
+  console.log(fixedImg);
+  giphy.setAttribute("src",fixedImg);
+ });
+};
+
+giphyAPITesting ();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
