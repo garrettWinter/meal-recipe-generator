@@ -132,6 +132,7 @@ function edamamAPI(event) {
           url: data.hits[i].recipe.shareAs,
         };
         recipeArray.push({ recipeLoop });
+        localStorage.setItem('recipe' + i, JSON.stringify(recipeLoop));
       }
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
