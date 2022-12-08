@@ -135,6 +135,10 @@ function edamamAPI(event) {
           cuisineType: data.hits[i].recipe.cuisineType[0],
           imageThumbnail: data.hits[i].recipe.images.THUMBNAIL.url,
           url: data.hits[i].recipe.shareAs,
+          totalTime: data.hits[i].recipe.totalTime,
+          calories: data.hits[i].recipe.calories,
+          yield: data.hits[i].recipe.yield,
+          nextPage: data.hits[i]._links.self.href,
         };
         recipeArray.push({ recipeLoop });
       }
