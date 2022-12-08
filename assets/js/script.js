@@ -1,3 +1,4 @@
+console.log("Connected");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
