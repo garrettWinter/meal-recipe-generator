@@ -1,4 +1,3 @@
-console.log("Testing Connection");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
@@ -143,10 +142,12 @@ function edamamAPI(event) {
           url: data.hits[i].recipe.shareAs,
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          nextPage: data.hits[i]._links.self.href,
         };
         recipeArray.push({ recipeLoop });
       }
-      
+
       localStorage.setItem('recipes', JSON.stringify(recipeArray));
 
       console.log("----------\n Trimmed down API Response Data \n----------");
@@ -194,11 +195,14 @@ function giphyAPITesting(event) {
     });
 };
 function storageRetrieval() {
+  if (localStorage.recipes = null) {
+   return;   
+  }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
   noResults === false;
 }
-storageRetrieval();
+// storageRetrieval();
 
 
 /* Event Listen for Search Buttom Click */
@@ -316,7 +320,7 @@ function recipeDisplay() {
   //     receipeList.removeChild(receipeList.children[0]);
   //   }
   // }
-  console.log(JSON.parse(localStorage.recipes));
+  // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
   console.log("Length of Recipe Array is: " + recipeArrayLength);
   for (let i = 0; i < 18; i++) {
