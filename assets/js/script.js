@@ -180,6 +180,7 @@ function giphyAPITesting(event) {
   var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=' + userInput + '%20food&rating=pg'
   console.log(requestUrl);
   fetch(requestUrl)
+
     .then(function (response) {
       return response.json();
     })
@@ -198,6 +199,7 @@ function storageRetrieval() {
   noResults === false;
 }
 storageRetrieval();
+
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
