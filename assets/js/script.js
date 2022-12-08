@@ -46,7 +46,6 @@ var recipeArrayLength = 0;
 var recipeArray = [];
 var firstLoad = true;
 
-var noResults = false;
 var receipeList = document.querySelector('#receipeList')
 var searchBoxText = document.querySelector('#searchBoxText')
 var searchBtn = document.querySelector('#searchBtn');
@@ -154,8 +153,7 @@ function edamamAPI(event) {
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
       if (recipeArray.length === 0) {
-        noResults = true;
-        searchBoxText.textContent = "No search results found based on your choices, please try again!";
+         searchBoxText.textContent = "No search results found based on your choices, please try again!";
       };
       userInput = "breakfast";
       recipeDisplay();
@@ -174,7 +172,7 @@ function giphyAPITesting(event) {
     userInput = dropdownBtn2.textContent;
   };
 
-  if (noResults === true) {
+  if (recipeArray.length === 0) {
     userInput = "sad";
   }
   console.log("Giphy Search Term:" + userInput);
@@ -201,7 +199,6 @@ function storageRetrieval() {
   }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
-  noResults === false;
 }
 // storageRetrieval();
 
@@ -315,6 +312,9 @@ dropdownItem_3_6.addEventListener("click", function () {
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
   console.log("recipeDisplay has run");
+  if (recipeArray.length === 0){
+    return;
+  }
   /* Clearing any previously made child elements */
   // if (recipeArrayLength > 0) {
   //   for (let i = 0; i < recipeArrayLength; i++) {
