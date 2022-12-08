@@ -172,18 +172,25 @@ function giphyAPITesting(event) {
     userInput +
     "%20food&rating=pg";
   fetch(requestUrl)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log("----------\n Giphy API Response Data \n----------");
-      console.log(data);
-      console.log(data.data.url);
-      fixedImg = data.data.images.fixed_width.url;
-      console.log(fixedImg);
-      giphy.setAttribute("src", fixedImg);
-    });
-}
+
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  console.log('----------\n Giphy API Response Data \n----------');
+  console.log(data);
+  console.log(data.data.url);
+  fixedImg= data.data.images.fixed_width.url;
+  console.log(fixedImg);
+  giphy.setAttribute("src",fixedImg);
+ });
+ };
+
+ function storageRetrieval() {
+  recipeArray = JSON.parse(localStorage.getItem("recipes"));
+  recipeDisplay();
+ }
+ storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -362,3 +369,4 @@ function recipeDisplay() {
     }
   }
 }
+
