@@ -128,7 +128,7 @@ function edamamAPI(event) {
       console.log(data);
       /* Clearning out old search data*/
       recipeArray = [];
-       /* Data processing*/
+      /* Data processing*/
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
@@ -176,7 +176,13 @@ function giphyAPITesting (event){
   console.log(fixedImg);
   giphy.setAttribute("src",fixedImg);
  });
-};
+ };
+
+ function storageRetrieval() {
+  recipeArray = JSON.parse(localStorage.getItem("recipes"));
+  recipeDisplay();
+ }
+ storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -315,7 +321,7 @@ function recipeDisplay() {
     createA.textContent = recipeArray[i].recipeLoop.recipeName;
     createList.appendChild(createP);
     createP.textContent = recipeArray[i].recipeLoop.cuisineType;
-  }
+   }
 } 
 
 
