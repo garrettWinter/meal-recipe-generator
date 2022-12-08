@@ -1,5 +1,6 @@
 console.log("Testing Connection");
 /* Global Variables  */
+var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
 var dropdown2 = document.getElementById("dropdown-2");
 var dropdown3 = document.getElementById("dropdown-3");
@@ -36,21 +37,20 @@ var dropdownItem_3_6 = document.getElementById("dropdown-item-3-6");
 var dropdownBtn1 = document.getElementById("dropdown-btn1-html");
 var dropdownBtn2 = document.getElementById("dropdown-btn2-html");
 var dropdownBtn3 = document.getElementById("dropdown-btn3-html");
-var ingredient1Input = document.querySelector('#ingredient1');
-var ingredient2Input = document.querySelector('#ingredient2');
-var ingredient3Input = document.querySelector('#ingredient3');
-var ingredient4Input = document.querySelector('#ingredient4');
+var ingredient1Input = document.querySelector("#ingredient1");
+var ingredient2Input = document.querySelector("#ingredient2");
+var ingredient3Input = document.querySelector("#ingredient3");
+var ingredient4Input = document.querySelector("#ingredient4");
 var recipeArrayLength = 0;
-
 
 var recipeArray = [];
 var firstLoad = true;
-var receipeList = document.querySelector('#receipeList')
-var searchBtn = document.querySelector('#searchBtn');
+var receipeList = document.querySelector("#receipeList");
+var searchBtn = document.querySelector("#searchBtn");
 
 /* Start of Edamam API Variables */
-var edamamApiKey = 'e6371ff056c6f2217c6e6095d104cdeb';
-var edamamApiID = '9f8e9bb4';
+var edamamApiKey = "e6371ff056c6f2217c6e6095d104cdeb";
+var edamamApiID = "9f8e9bb4";
 var cuisineType = dropdownBtn1.innerText;
 var mealType = dropdownBtn2.innerText;
 var time = dropdownBtn3.innerText;
@@ -58,60 +58,68 @@ var ingredient1 = ingredient1Input.value;
 var ingredient2 = ingredient2Input.value;
 var ingredient3 = ingredient3Input.value;
 var ingredient4 = ingredient4Input.value;
-var ingredients = '';
+var ingredients = "";
 var requestUrl;
 
 /* Start of Giphy API Variables */
- var fixedImg
- var giphy = document.querySelector('#giphy');
+var fixedImg;
+var giphy = document.querySelector("#giphy");
 
-function edamamURLBuilder (){
-console.log("edamamURLBuilder has been trigged");
-/* Updating the variables to so they have most recent values */
-cuisineType = dropdownBtn1.innerText;
-mealType = dropdownBtn2.innerText;
-time = dropdownBtn3.innerText;
-ingredient1 = ingredient1Input.value;
-ingredient2 = ingredient2Input.value;
-ingredient3 = ingredient3Input.value;
-ingredient4 = ingredient4Input.value;
+function edamamURLBuilder() {
+  console.log("edamamURLBuilder has been trigged");
+  /* Updating the variables to so they have most recent values */
+  cuisineType = dropdownBtn1.innerText;
+  mealType = dropdownBtn2.innerText;
+  time = dropdownBtn3.innerText;
+  ingredient1 = ingredient1Input.value;
+  ingredient2 = ingredient2Input.value;
+  ingredient3 = ingredient3Input.value;
+  ingredient4 = ingredient4Input.value;
 
-/* ---Edamam Request URL building Logic--- */
-if(cuisineType != 'Any'){
-  cuisineType = '&cuisineType='+cuisineType;
-} else (cuisineType = '')
+  /* ---Edamam Request URL building Logic--- */
+  if (cuisineType != "Any") {
+    cuisineType = "&cuisineType=" + cuisineType;
+  } else cuisineType = "";
 
-if(mealType != 'Any'){
-  mealType = '&mealType='+mealType;
-} else (mealType = '')
+  if (mealType != "Any") {
+    mealType = "&mealType=" + mealType;
+  } else mealType = "";
 
-if(time != 'Any'){
-  time = '&time='+time;
-} else (time = '')
+  if (time != "Any") {
+    time = "&time=" + time;
+  } else time = "";
 
-if(ingredient1 != ''){
-  ingredient1 = ingredient1+"%20";
-} else (ingredient1 = '')
+  if (ingredient1 != "") {
+    ingredient1 = ingredient1 + "%20";
+  } else ingredient1 = "";
 
-if(ingredient2 != ''){
-  ingredient2 = ingredient2+"%20";
-} else (ingredient2 = '')
+  if (ingredient2 != "") {
+    ingredient2 = ingredient2 + "%20";
+  } else ingredient2 = "";
 
-if(ingredient3 != ''){
-  ingredient3 = ingredient3+"%20";
-} else (ingredient3 = '')
+  if (ingredient3 != "") {
+    ingredient3 = ingredient3 + "%20";
+  } else ingredient3 = "";
 
-if(ingredient4 != ''){
-  ingredient4 = ingredient4+"%20";
-} else (ingredient4 = '')
+  if (ingredient4 != "") {
+    ingredient4 = ingredient4 + "%20";
+  } else ingredient4 = "";
 
-ingredients = ingredient1+ingredient2+ingredient3+ingredient4;
-if(ingredients != ''){
-  ingredients = "&q="+ingredient1+ingredient2+ingredient3+ingredient4;
-} 
+  ingredients = ingredient1 + ingredient2 + ingredient3 + ingredient4;
+  if (ingredients != "") {
+    ingredients = "&q=" + ingredient1 + ingredient2 + ingredient3 + ingredient4;
+  }
 
-requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key="+edamamApiKey+"&app_id="+edamamApiID+cuisineType+mealType+time+ingredients;
-requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
+  requestUrl =
+    "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key=" +
+    edamamApiKey +
+    "&app_id=" +
+    edamamApiID +
+    cuisineType +
+    mealType +
+    time +
+    ingredients;
+  requestUrl = requestUrl.replaceAll(" ", "%20"); //Finds any spaces and replaces these with %20
 }
 
 /* This function performs the Edamam API call to gather the recipe data and stores it locally */
@@ -128,51 +136,54 @@ function edamamAPI(event) {
       console.log(data);
       /* Clearning out old search data*/
       recipeArray = [];
-       /* Data processing*/
+      /* Data processing*/
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
           cuisineType: data.hits[i].recipe.cuisineType[0],
           imageThumbnail: data.hits[i].recipe.images.THUMBNAIL.url,
           url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
         };
         recipeArray.push({ recipeLoop });
       }
-      localStorage.setItem('recipes' , JSON.stringify(recipeArray));
+      localStorage.setItem("recipes", JSON.stringify(recipeArray));
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
       recipeDisplay();
-      giphyAPITesting ();
+      giphyAPITesting();
     });
 }
 
-
-
 var userInput = "breakfast";
 
-function giphyAPITesting (event){
-  console.log("Testing has been trigged")
+function giphyAPITesting(event) {
+  console.log("Testing has been trigged");
 
-  if (mealType != "Any"){
+  if (mealType != "Any") {
     userInput = dropdownBtn2.innerText;
-  };
+  }
   console.log(userInput);
 
   /* Setting the URL and triggering the GET API */
-  var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag='+userInput+'%20food&rating=pg'
+  var requestUrl =
+    "https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=" +
+    userInput +
+    "%20food&rating=pg";
   fetch(requestUrl)
-.then(function (response) {
-  return response.json();
-})
-.then(function (data) {
-  console.log('----------\n Giphy API Response Data \n----------');
-  console.log(data);
-  console.log(data.data.url);
-  fixedImg= data.data.images.fixed_width.url;
-  console.log(fixedImg);
-  giphy.setAttribute("src",fixedImg);
- });
-};
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("----------\n Giphy API Response Data \n----------");
+      console.log(data);
+      console.log(data.data.url);
+      fixedImg = data.data.images.fixed_width.url;
+      console.log(fixedImg);
+      giphy.setAttribute("src", fixedImg);
+    });
+}
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -284,35 +295,70 @@ dropdownItem_3_6.addEventListener("click", function () {
 function recipeDisplay() {
   console.log("recipeDisplay has run");
   /* Clearing any previously made child elements */
-  if (recipeArrayLength > 0) {
-    for (let i = 0; i < recipeArrayLength; i++) {
-      receipeList.removeChild(receipeList.children[0]);
+  // if (recipeArrayLength > 0) {
+  //   for (let i = 0; i < recipeArrayLength; i++) {
+  //     receipeList.removeChild(receipeList.children[0]);
+  //   }
+  // }
+  console.log(JSON.parse(localStorage.recipes));
+  recipeArrayLength = recipeArray.length;
+  console.log("Length of Recipe Array is: " + recipeArrayLength);
+  for (let i = 0; i < 18; i++) {
+    //   /* Element Creation for recipies*/
+    var columnDivEl = document.createElement("div");
+    var cardDivEl = document.createElement("div");
+    var cardImgDivEl = document.createElement("div");
+    var figureEl = document.createElement("figure");
+    var recipeImg = document.createElement("img");
+    var cardContentDiv = document.createElement("div");
+    var cuisineName = document.createElement("p");
+    var calories = document.createElement("p");
+    var timeTaken = document.createElement("p");
+    var createA = document.createElement("a");
+    //   /* Element Updates */
+    columnDivEl.classList.add("column");
+    columnDivEl.classList.add("is-2");
+    cardDivEl.classList.add("card");
+    cardImgDivEl.classList.add("card-image");
+    figureEl.classList.add("image");
+    figureEl.classList.add("is-96by96");
+    cardContentDiv.classList.add("card-content");
+    cuisineName.classList.add("title");
+    cuisineName.classList.add("is-5");
+    cuisineName.classList.add("ml-3");
+    cuisineName.classList.add("mb-1");
+    calories.classList.add("ml-3");
+    calories.classList.add("mb-1");
+    timeTaken.classList.add("ml-3");
+    timeTaken.classList.add("mb-0");
+
+    cuisineName.classList.add("has-text-info");
+    recipeImg.setAttribute("src", recipeArray[i].recipeLoop.imageThumbnail);
+    recipeImg.setAttribute("alt", recipeArray[i].recipeLoop.recipeName);
+    recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
+    createA.setAttribute("href", recipeArray[i].recipeLoop.url);
+    createA.setAttribute("target", "_blank");
+    /* Element Appending */
+    contentArea.appendChild(columnDivEl);
+    columnDivEl.appendChild(cardDivEl);
+    cardDivEl.appendChild(cardImgDivEl);
+    cardDivEl.appendChild(cardContentDiv);
+    cardImgDivEl.appendChild(figureEl);
+    figureEl.appendChild(recipeImg);
+    cardContentDiv.appendChild(createA);
+    cardContentDiv.appendChild(calories);
+    cardContentDiv.appendChild(timeTaken);
+    cardContentDiv.appendChild(timeTaken);
+    createA.appendChild(cuisineName);
+    cuisineName.textContent = recipeArray[i].recipeLoop.recipeName;
+    var meal = "This meal contains ";
+    var drink = "This drink contains ";
+    calories.textContent =
+      meal + Math.trunc(recipeArray[i].recipeLoop.calories) + " calories.";
+    timeTaken.textContent =
+      "This will take " + recipeArray[i].recipeLoop.timeTaken + " min to make";
+    if (recipeArray[i].recipeLoop.timeTaken === 0) {
+      timeTaken.textContent = "This can be made in no time!";
     }
   }
-  recipeArrayLength = recipeArray.length;
-  console.log("Length of Recipe Array is: " + recipeArrayLength)
-  for (let i = 0; i < recipeArray.length; i++) {
-    //   /* Element Creation for recipies*/
-    var createList = document.createElement('li');
-    var createImg = document.createElement('img');
-    var createA = document.createElement('a');
-    var createP = document.createElement('p');
-    //   /* Element Updates */
-    createList.classList.add("receipeRow");
-    createImg.setAttribute('src', recipeArray[i].recipeLoop.imageThumbnail);
-    createImg.setAttribute('alt', recipeArray[i].recipeLoop.recipeName);
-    createImg.setAttribute('title', recipeArray[i].recipeLoop.recipeName);
-    createA.setAttribute('href', recipeArray[i].recipeLoop.url);
-    createA.setAttribute('target', '_blank');
-    /* Element Appending */
-    receipeList.appendChild(createList);
-    createList.appendChild(createImg);
-    createList.appendChild(createA);
-    createA.textContent = recipeArray[i].recipeLoop.recipeName;
-    createList.appendChild(createP);
-    createP.textContent = recipeArray[i].recipeLoop.cuisineType;
-  }
-} 
-
-
- 
+}
