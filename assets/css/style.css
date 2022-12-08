@@ -1,4 +1,4 @@
-.bg-image {
+body {
   background-image: url(../images/food.jpg);
   background-size: cover;
   background-repeat: repeat;
@@ -22,13 +22,12 @@
   display: none;
 }
 
-
-/* Temp CSS*/ 
-.cuisineType{
+/* Temp CSS*/
+.cuisineType {
   color: white;
 }
 
-.receipeRow{
+.receipeRow {
   /* display: flex; */
   align-items: center;
   color: white;
@@ -37,6 +36,10 @@
   list-style: none;
 }
 
-footer{
+footer {
   background-color: grey;
+}
+#giphy {
+  margin-left: 267px;
+  margin-top: -95px;
 }

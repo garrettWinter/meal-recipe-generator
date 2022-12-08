@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Meals</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Budget Meals</title>
-  <link rel="stylesheet" href="./assets/css/style.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-</head>
-
-<body>
-  <div class="bg-image">
-    <br>
+  <body>
     <header>
-      <h1 id="test" class="is-size-1 title has-text-centered has-text-white">Welcome to Budget Friendly Meals</h1>
-      <br>
-      <p class="is-size-3  has-text-centered has-text-white">
+      <h1 id="test" class="is-size-1 title has-text-centered has-text-white">
+        Welcome to Meal Recipe Generator
+      </h1>
+      <br />
+      <p class="is-size-3 has-text-centered has-text-white">
         Input your ingredients and select your desired food preferences below to
         receive a corresponding recipe on the right hand side of the webpage.
       </p>
-      <br>
-      <br>
+      <br />
+      <br />
     </header>
-    <br>
     <div class="columns">
-      <div class="column">
-        <div class="card">
+      <div class="column is-one-quarter">
+        <div class="card ml-6">
           <div class="card-content has-background-grey-dark">
-            <h2 class="label has-text-white is-size-3">Select your preferences below</h2>
-            <br>
+            <h2 class="label has-text-white is-size-3">
+              Select your preferences below
+            </h2>
+            <br />
             <ul>
               <li>
-                <h3 class="label has-text-white is-size-5">Which type of cuisine would you like?</h3>
-                <br>
+                <h3 class="label has-text-white is-size-5">
+                  Which type of cuisine would you like?
+                </h3>
+                <br />
                 <div class="dropdown" id="dropdown-1">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <button
+                      class="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu3"
+                    >
                       <span id="dropdown-btn1-html">Any</span>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -106,15 +118,21 @@
                     </div>
                   </div>
                 </div>
-                <br>
-                <br>
+                <br />
+                <br />
               </li>
               <li>
-                <h3 class="label has-text-white is-size-5">Which type of food would you like?</h3>
-                <br>
+                <h3 class="label has-text-white is-size-5">
+                  Which type of food would you like?
+                </h3>
+                <br />
                 <div class="dropdown" id="dropdown-2">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <button
+                      class="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu3"
+                    >
                       <span id="dropdown-btn2-html">Any</span>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -141,8 +159,8 @@
                     </div>
                   </div>
                 </div>
-                <br>
-                <br>
+                <br />
+                <br />
               </li>
               <li>
                 <h3 class="label has-text-white is-size-5">In how many minutes or less would you like the cooking time
@@ -150,7 +168,11 @@
                 <br>
                 <div class="dropdown" id="dropdown-3">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <button
+                      class="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu3"
+                    >
                       <span id="dropdown-btn3-html">Any</span>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -180,44 +202,82 @@
                     </div>
                   </div>
                 </div>
-                <br>
-                <br>
+                <br />
+                <br />
               </li>
-              <h3 class="label has-text-white is-size-5">Enter the ingredients you would like in your dish.</h3>
-
+              <h3 class="label has-text-white is-size-5">
+                Enter the ingredients you would like in your dish.
+              </h3>
               <li>
                 <input id="ingredient1" class="input" type="text" placeholder="Ingredient #1">
               </li>
-              <br>
+              <br />
               <li>
+
                 <input id="ingredient2" class="input" type="text" placeholder="Ingredient #2">
               </li>
-              <br>
+              <br />
               <li>
+
                 <input id="ingredient3" class="input" type="text" placeholder="Ingredient #3">
               </li>
-              <br>
+              <br />
               <li>
+
                 <input id="ingredient4" class="input" type="text" placeholder="Ingredient #4">
+
               </li>
             </ul>
-            <br>
-            <br>
+            <br />
+            <br />
             <li>
-              <button id="searchBtn" class="button is-large has-background-light">Search</button>
+              <button id="searchBtn" class="button is-large button is-primary">
+                Search
+              </button>
             </li>
-            <br>
-            <img id="edamamBadge" src="./assets/images/Edamam_Badge_Light.png">
+            <br />
+            <div class="is-inline-block">
+              <img id="giphy" />
+            </div>
+
+            <br />
           </div>
         </div>
       </div>
-      <div class="column">
-        <div class="card-content has-background-grey-dark">
+      <div class="column mr-6">
+        <div class="card-2 card-content has-background-grey-dark">
           <div class="content">
-            <h2 id="searchBoxText" class="label has-text-white is-size-3">Results for corresponding recipes will appear
-              below:</h2>
-            <ul id="receipeList" class="has-text-white">
-              <!-- Recipe List is generated via Java Script -->
+            <h2 id="searchBoxText" class="label has-text-white is-size-3">
+              Results for corresponding recipes will appear below
+            </h2>
+            <ul id="receipeList">
+              <div class="columns is-multiline" id="content-area">
+                <!-- Recipe List is generated via Java Script -->
+              </div>
+              <nav class="pagination" role="navigation" aria-label="pagination">
+                <a
+                  class="pagination-previous is-disabled"
+                  title="This is the first page"
+                  >Previous</a
+                >
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                  <li>
+                    <a
+                      class="pagination-link is-current"
+                      aria-label="Page 1"
+                      aria-current="page"
+                      >1</a
+                    >
+                  </li>
+                  <li>
+                    <a class="pagination-link" aria-label="Goto page 2">2</a>
+                  </li>
+                  <li>
+                    <a class="pagination-link" aria-label="Goto page 3">3</a>
+                  </li>
+                </ul>
+              </nav>
             </ul>
           </div>
         </div>
@@ -232,4 +292,7 @@
   </footer>
   <script src="./assets/js/script.js"></script>
 
+
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
