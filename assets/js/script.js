@@ -45,7 +45,9 @@ var recipeArrayLength = 0;
 
 var recipeArray = [];
 var firstLoad = true;
+var noResults = false;
 var receipeList = document.querySelector('#receipeList')
+var searchBoxText = document.querySelector('#searchBoxText')
 var searchBtn = document.querySelector('#searchBtn');
 
 /* Start of Edamam API Variables */
@@ -62,61 +64,62 @@ var ingredients = '';
 var requestUrl;
 
 /* Start of Giphy API Variables */
- var fixedImg
- var giphy = document.querySelector('#giphy');
+var fixedImg
+var giphy = document.querySelector('#giphy');
 
-function edamamURLBuilder (){
-console.log("edamamURLBuilder has been trigged");
-/* Updating the variables to so they have most recent values */
-cuisineType = dropdownBtn1.innerText;
-mealType = dropdownBtn2.innerText;
-time = dropdownBtn3.innerText;
-ingredient1 = ingredient1Input.value;
-ingredient2 = ingredient2Input.value;
-ingredient3 = ingredient3Input.value;
-ingredient4 = ingredient4Input.value;
+function edamamURLBuilder() {
+  console.log("edamamURLBuilder has been trigged");
+  /* Updating the variables to so they have most recent values */
+  cuisineType = dropdownBtn1.innerText;
+  mealType = dropdownBtn2.innerText;
+  time = dropdownBtn3.innerText;
+  ingredient1 = ingredient1Input.value;
+  ingredient2 = ingredient2Input.value;
+  ingredient3 = ingredient3Input.value;
+  ingredient4 = ingredient4Input.value;
 
-/* ---Edamam Request URL building Logic--- */
-if(cuisineType != 'Any'){
-  cuisineType = '&cuisineType='+cuisineType;
-} else (cuisineType = '')
+  /* ---Edamam Request URL building Logic--- */
+  if (cuisineType != 'Any') {
+    cuisineType = '&cuisineType=' + cuisineType;
+  } else (cuisineType = '')
 
-if(mealType != 'Any'){
-  mealType = '&mealType='+mealType;
-} else (mealType = '')
+  if (mealType != 'Any') {
+    mealType = '&mealType=' + mealType;
+  } else (mealType = '')
 
-if(time != 'Any'){
-  time = '&time='+time;
-} else (time = '')
+  if (time != 'Any') {
+    time = '&time=' + time;
+  } else (time = '')
 
-if(ingredient1 != ''){
-  ingredient1 = ingredient1+"%20";
-} else (ingredient1 = '')
+  if (ingredient1 != '') {
+    ingredient1 = ingredient1 + "%20";
+  } else (ingredient1 = '')
 
-if(ingredient2 != ''){
-  ingredient2 = ingredient2+"%20";
-} else (ingredient2 = '')
+  if (ingredient2 != '') {
+    ingredient2 = ingredient2 + "%20";
+  } else (ingredient2 = '')
 
-if(ingredient3 != ''){
-  ingredient3 = ingredient3+"%20";
-} else (ingredient3 = '')
+  if (ingredient3 != '') {
+    ingredient3 = ingredient3 + "%20";
+  } else (ingredient3 = '')
 
-if(ingredient4 != ''){
-  ingredient4 = ingredient4+"%20";
-} else (ingredient4 = '')
+  if (ingredient4 != '') {
+    ingredient4 = ingredient4 + "%20";
+  } else (ingredient4 = '')
 
-ingredients = ingredient1+ingredient2+ingredient3+ingredient4;
-if(ingredients != ''){
-  ingredients = "&q="+ingredient1+ingredient2+ingredient3+ingredient4;
-} 
+  ingredients = ingredient1 + ingredient2 + ingredient3 + ingredient4;
+  if (ingredients != '') {
+    ingredients = "&q=" + ingredient1 + ingredient2 + ingredient3 + ingredient4;
+  }
 
-requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key="+edamamApiKey+"&app_id="+edamamApiID+cuisineType+mealType+time+ingredients;
-requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
+  requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key=" + edamamApiKey + "&app_id=" + edamamApiID + cuisineType + mealType + time + ingredients;
+  requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
 }
 
 /* This function performs the Edamam API call to gather the recipe data and stores it locally */
 function edamamAPI(event) {
   console.log("edamamAPI has been trigged");
+  searchBoxText.textContent = "Results for corresponding recipes will appear below:";
   edamamURLBuilder();
   /* Setting the URL and triggering the GET API */
   fetch(requestUrl)
@@ -142,11 +145,16 @@ function edamamAPI(event) {
         };
         recipeArray.push({ recipeLoop });
       }
-      localStorage.setItem('recipes' , JSON.stringify(recipeArray));
+      localStorage.setItem('recipes', JSON.stringify(recipeArray));
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
+      if (recipeArray.length === 0) {
+        noResults = true;
+        searchBoxText.textContent = "No search results found based on your choices, please try again!";
+      };
+      userInput = "breakfast";
       recipeDisplay();
-      giphyAPITesting ();
+      giphyAPITesting();
     });
 }
 
@@ -154,35 +162,42 @@ function edamamAPI(event) {
 
 var userInput = "breakfast";
 
-function giphyAPITesting (event){
+function giphyAPITesting(event) {
   console.log("Testing has been trigged")
-
-  if (mealType != "Any"){
-    userInput = dropdownBtn2.innerText;
+  console.log(mealType);
+  if (mealType === '') {
+    userInput = "breakfast";
+  } else if (mealType != "Any") {
+    userInput = dropdownBtn2.textContent;
   };
-  console.log(userInput);
+
+  if (noResults === true) {
+    userInput = "sad";
+  }
+  console.log("Giphy Search Term:" + userInput);
 
   /* Setting the URL and triggering the GET API */
-  var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag='+userInput+'%20food&rating=pg'
+  var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=' + userInput + '%20food&rating=pg'
+  console.log(requestUrl);
   fetch(requestUrl)
-.then(function (response) {
-  return response.json();
-})
-.then(function (data) {
-  console.log('----------\n Giphy API Response Data \n----------');
-  console.log(data);
-  console.log(data.data.url);
-  fixedImg= data.data.images.fixed_width.url;
-  console.log(fixedImg);
-  giphy.setAttribute("src",fixedImg);
- });
- };
-
- function storageRetrieval() {
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log('----------\n Giphy API Response Data \n----------');
+      console.log(data);
+      console.log(data.data.url);
+      fixedImg = data.data.images.fixed_width.url;
+      console.log(fixedImg);
+      giphy.setAttribute("src", fixedImg);
+    });
+};
+function storageRetrieval() {
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
- }
- storageRetrieval();
+  noResults === false;
+}
+storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -321,8 +336,7 @@ function recipeDisplay() {
     createA.textContent = recipeArray[i].recipeLoop.recipeName;
     createList.appendChild(createP);
     createP.textContent = recipeArray[i].recipeLoop.cuisineType;
-   }
-} 
+  }
+}
 
 
- 
