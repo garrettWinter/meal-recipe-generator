@@ -349,6 +349,7 @@ function recipeDisplay() {
     //   /* Element Updates */
     columnDivEl.classList.add("column");
     columnDivEl.classList.add("is-2");
+    columnDivEl.classList.add("is-flex");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
     figureEl.classList.add("image");
