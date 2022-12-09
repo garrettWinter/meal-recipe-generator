@@ -1,4 +1,4 @@
-console.log("Testing Connection");
+console.log("Connected");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
@@ -46,7 +46,6 @@ var recipeArrayLength = 0;
 var recipeArray = [];
 var firstLoad = true;
 
-var noResults = false;
 var receipeList = document.querySelector('#receipeList')
 var searchBoxText = document.querySelector('#searchBoxText')
 var searchBtn = document.querySelector('#searchBtn');
@@ -67,6 +66,7 @@ var requestUrl;
 /* Start of Giphy API Variables */
 var fixedImg;
 var giphy = document.querySelector("#giphy");
+var giphyAttribution = document.querySelector("#giphyAttribution");
 
 function edamamURLBuilder() {
   console.log("edamamURLBuilder has been trigged");
@@ -143,22 +143,30 @@ function edamamAPI(event) {
           url: data.hits[i].recipe.shareAs,
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          nextPage: data.hits[i]._links.self.href,
         };
         recipeArray.push({ recipeLoop });
       }
-      
+
       localStorage.setItem('recipes', JSON.stringify(recipeArray));
 
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
       if (recipeArray.length === 0) {
-        noResults = true;
-        searchBoxText.textContent = "No search results found based on your choices, please try again!";
+         searchBoxText.textContent = "No search results found based on your choices, please try again!";
       };
       userInput = "breakfast";
       recipeDisplay();
       giphyAPITesting();
     });
+    dropdownBtn1.innerText = "Any";
+    dropdownBtn2.innerText = "Any";
+    dropdownBtn3.innerText = "Any";
+    ingredient1Input.value = "";
+    ingredient2Input.value = "";
+    ingredient3Input.value = "";
+    ingredient4Input.value = "";
 }
 
 var userInput = "breakfast";
@@ -172,7 +180,7 @@ function giphyAPITesting(event) {
     userInput = dropdownBtn2.textContent;
   };
 
-  if (noResults === true) {
+  if (recipeArray.length === 0) {
     userInput = "sad";
   }
   console.log("Giphy Search Term:" + userInput);
@@ -191,15 +199,18 @@ function giphyAPITesting(event) {
       fixedImg = data.data.images.fixed_width.url;
       console.log(fixedImg);
       giphy.setAttribute("src", fixedImg);
+      giphyAttribution.setAttribute("src", "./assets/images/giphyimg.png");
     });
 };
 function storageRetrieval() {
+   if (localStorage.recipes === undefined) {
+   console.log("if statement ran")
+    return;   
+    }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
-  noResults === false;
 }
-storageRetrieval();
-
+ storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -310,16 +321,20 @@ dropdownItem_3_6.addEventListener("click", function () {
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
   console.log("recipeDisplay has run");
+  if (recipeArray.length === 0){
+    return;
+  }
   /* Clearing any previously made child elements */
-  // if (recipeArrayLength > 0) {
-  //   for (let i = 0; i < recipeArrayLength; i++) {
-  //     receipeList.removeChild(receipeList.children[0]);
-  //   }
-  // }
-  console.log(JSON.parse(localStorage.recipes));
+  console.log(recipeArrayLength);
+  if (recipeArrayLength > 0) {
+    for (let i = 0; i < recipeArrayLength; i++) {
+      contentArea.removeChild(contentArea.children[0]);
+    }
+  }
+  // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
-  console.log("Length of Recipe Array is: " + recipeArrayLength);
-  for (let i = 0; i < 18; i++) {
+  console.log("Length of Recipe Array is: " + recipeArray.length);
+  for (let i = 0; i < recipeArray.length; i++) {
     //   /* Element Creation for recipies*/
     var columnDivEl = document.createElement("div");
     var cardDivEl = document.createElement("div");
@@ -334,6 +349,7 @@ function recipeDisplay() {
     //   /* Element Updates */
     columnDivEl.classList.add("column");
     columnDivEl.classList.add("is-2");
+    columnDivEl.classList.add("is-flex");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
     figureEl.classList.add("image");
