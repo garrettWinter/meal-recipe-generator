@@ -1,4 +1,4 @@
-console.log("Testing Connection");
+console.log("Connected");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
@@ -46,7 +46,6 @@ var recipeArrayLength = 0;
 var recipeArray = [];
 var firstLoad = true;
 
-var noResults = false;
 var receipeList = document.querySelector('#receipeList')
 var searchBoxText = document.querySelector('#searchBoxText')
 var searchBtn = document.querySelector('#searchBtn');
@@ -143,17 +142,18 @@ function edamamAPI(event) {
           url: data.hits[i].recipe.shareAs,
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          nextPage: data.hits[i]._links.self.href,
         };
         recipeArray.push({ recipeLoop });
       }
-      
+
       localStorage.setItem('recipes', JSON.stringify(recipeArray));
 
       console.log("----------\n Trimmed down API Response Data \n----------");
       console.log(recipeArray);
       if (recipeArray.length === 0) {
-        noResults = true;
-        searchBoxText.textContent = "No search results found based on your choices, please try again!";
+         searchBoxText.textContent = "No search results found based on your choices, please try again!";
       };
       userInput = "breakfast";
       recipeDisplay();
@@ -172,7 +172,7 @@ function giphyAPITesting(event) {
     userInput = dropdownBtn2.textContent;
   };
 
-  if (noResults === true) {
+  if (recipeArray.length === 0) {
     userInput = "sad";
   }
   console.log("Giphy Search Term:" + userInput);
@@ -194,11 +194,13 @@ function giphyAPITesting(event) {
     });
 };
 function storageRetrieval() {
+  if (localStorage.recipes = null) {
+   return;   
+  }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
-  noResults === false;
 }
-storageRetrieval();
+// storageRetrieval();
 
 
 /* Event Listen for Search Buttom Click */
@@ -310,13 +312,16 @@ dropdownItem_3_6.addEventListener("click", function () {
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
   console.log("recipeDisplay has run");
+  if (recipeArray.length === 0){
+    return;
+  }
   /* Clearing any previously made child elements */
   // if (recipeArrayLength > 0) {
   //   for (let i = 0; i < recipeArrayLength; i++) {
   //     receipeList.removeChild(receipeList.children[0]);
   //   }
   // }
-  console.log(JSON.parse(localStorage.recipes));
+  // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
   console.log("Length of Recipe Array is: " + recipeArrayLength);
   for (let i = 0; i < 18; i++) {
