@@ -194,13 +194,14 @@ function giphyAPITesting(event) {
     });
 };
 function storageRetrieval() {
-  if (localStorage.recipes = null) {
-   return;   
-  }
+   if (localStorage.recipes === undefined) {
+   console.log("if statement ran")
+    return;   
+    }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
 }
-// storageRetrieval();
+ storageRetrieval();
 
 
 /* Event Listen for Search Buttom Click */
