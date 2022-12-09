@@ -159,6 +159,13 @@ function edamamAPI(event) {
       recipeDisplay();
       giphyAPITesting();
     });
+    dropdownBtn1.innerText = "Any";
+    dropdownBtn2.innerText = "Any";
+    dropdownBtn3.innerText = "Any";
+    ingredient1Input.value = "";
+    ingredient2Input.value = "";
+    ingredient3Input.value = "";
+    ingredient4Input.value = "";
 }
 
 var userInput = "breakfast";
