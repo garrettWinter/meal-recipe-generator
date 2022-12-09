@@ -3,7 +3,7 @@ body {
   background-size: cover;
   background-repeat: repeat;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 @media (max-width: 780px) {
   .bg-image {
@@ -11,7 +11,7 @@ body {
     background-size: cover;
     background-repeat: repeat;
     width: 100vw;
-    height: 200vh;
+    height: 100%;
   }
 }
 .button.is-large {

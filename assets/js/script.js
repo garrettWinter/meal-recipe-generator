@@ -114,7 +114,7 @@ function edamamURLBuilder() {
     ingredients = "&q=" + ingredient1 + ingredient2 + ingredient3 + ingredient4;
   }
 
-  requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key=" + edamamApiKey + "&app_id=" + edamamApiID + cuisineType + mealType + time + ingredients;
+  requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=REGULAR&type=public&app_key=" + edamamApiKey + "&app_id=" + edamamApiID + cuisineType + mealType + time + ingredients;
   requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
 
 }
@@ -139,7 +139,7 @@ function edamamAPI(event) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
           cuisineType: data.hits[i].recipe.cuisineType[0],
-          imageThumbnail: data.hits[i].recipe.images.THUMBNAIL.url,
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
           url: data.hits[i].recipe.shareAs,
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
