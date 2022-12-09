@@ -66,6 +66,7 @@ var requestUrl;
 /* Start of Giphy API Variables */
 var fixedImg;
 var giphy = document.querySelector("#giphy");
+var giphyAttribution = document.querySelector("#giphyAttribution");
 
 function edamamURLBuilder() {
   console.log("edamamURLBuilder has been trigged");
@@ -198,6 +199,7 @@ function giphyAPITesting(event) {
       fixedImg = data.data.images.fixed_width.url;
       console.log(fixedImg);
       giphy.setAttribute("src", fixedImg);
+      giphyAttribution.setAttribute("src", "./assets/images/giphyimg.png");
     });
 };
 function storageRetrieval() {
@@ -209,7 +211,6 @@ function storageRetrieval() {
   recipeDisplay();
 }
  storageRetrieval();
-
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
