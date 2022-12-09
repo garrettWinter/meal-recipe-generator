@@ -195,7 +195,7 @@ function giphyAPITesting(event) {
 };
 function storageRetrieval() {
   if (localStorage.recipes = null) {
-   return;   
+      return;   
   }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
@@ -316,15 +316,16 @@ function recipeDisplay() {
     return;
   }
   /* Clearing any previously made child elements */
-  // if (recipeArrayLength > 0) {
-  //   for (let i = 0; i < recipeArrayLength; i++) {
-  //     receipeList.removeChild(receipeList.children[0]);
-  //   }
-  // }
+  console.log(recipeArrayLength);
+  if (recipeArrayLength > 0) {
+    for (let i = 0; i < recipeArrayLength; i++) {
+      contentArea.removeChild(contentArea.children[0]);
+    }
+  }
   // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
-  console.log("Length of Recipe Array is: " + recipeArrayLength);
-  for (let i = 0; i < 18; i++) {
+  console.log("Length of Recipe Array is: " + recipeArray.length);
+  for (let i = 0; i < recipeArray.length; i++) {
     //   /* Element Creation for recipies*/
     var columnDivEl = document.createElement("div");
     var cardDivEl = document.createElement("div");
