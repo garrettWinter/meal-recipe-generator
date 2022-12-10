@@ -273,7 +273,47 @@
         </div>
       </div>
     </div>
+    <button class="js-modal-trigger" data-target="bookmarks">
+      Open JS example modal
+    </button>
   </div>
-  <script src="./assets/js/script.js"></script>
-  </body>
+
+<!-- MODAL TESTING -->
+<div id="bookmarks" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title has-text-centered">Bookmarked Recipies</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body" id="bookmarkAnchor">
+
+      <div class="columns is-1">
+        <div class="column is-narrow">
+          <img class="image is-128x128"
+            src=https://edamam-product-images.s3.amazonaws.com/web-img/5fe/5fe11a25ce174a865d6f677c076ce262.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDoaCXVzLWVhc3QtMSJIMEYCIQDNJ4NuYmT2GNGFLOdpJiF5AdB%2FRaPffukuNojG2zhbzgIhAN7E%2FrWPbcOEpctaLlxMlAAW2SjGcDd74fyIjMALb0P0KswECGMQABoMMTg3MDE3MTUwOTg2IgzACiS5JZubjEFBqewqqQQbGYg1cVlCuVBzt5l3Sg3%2BYd1oH7cP2SbHZIGMe0cZGrthFU9qAVVvLM0vX0IGjWIgbTAgV19HndTc8g9ADHdb%2FrFCnbIUxhBBbmo2Hcqs9Ux1Kfmb4SEq9sApwG4ucN7vZM6bLLq6%2FrBESi6OuQT1ItcVCcA2IydDwo2HZTbZmrz6kGzQEoba6K%2BOls8CZF3%2FuswnGomHHlbEI8c1VuvYjXlIakHTyjVdyl60%2FmWW1fu%2B9mUlX4%2Bp0VrZTXhdTmw3YkIh8uAXDpF6cah8EolXq7CXXn7rDDaLHKvpq5J84yM%2FRnHtedggv8NaorDuvJDXf%2F2pPElN6OXvWtYU%2BCHKTfxptgIdD0Kk8BD21N9Mc6TUwtgTQBkATb3LAUD2VDLudOlXWsv7llSL%2FBwFuo0q0EohEY07whwfYWPPgwRLeCc8Rcc3SanqKNTf7se369uOTFBErHnM5zzYUoUh33QtUrQP4Q%2F5NMJdzhEHZVeCFtbVGwq18GKmqk6ewB6pgbzwTBymlFQGQ1FZmw4RpBN85WaMa32r7%2FKyIJ5JPn8z%2B%2F6uaUquRP7iKb2gHX7k6giuYfdhFmf1JtxL7%2FIdE0VageLC54PYA7xM%2ByQSYsdtrtDoUXb5goyAC0hsWPIFzyKmwvpr6eG%2BzcUaBrTb7Qk0QhFb3oShJV%2FWEjNjA%2Bb0RwYXGMNElc0L3e7rzeYuYYO4pGw8CcfcLwRulOaKXtSSTEcL%2BD%2B%2BV2LMMKXtzZwGOqgB9Cz3B1owiRT5La51%2Bnx4do72cQz9701xIWaTbYL5Yi0Sbyos0k1EtZsl%2Fphdo8ziEHBE7MPI8ErUbut8aDnQx%2BSNUB2ctuyYhGUIFUsZ21YB%2BSgrKwM04pJTZkrLGbw2bajfwNY118aHybIEkVbm4pblnrUidJAFVDBEdVV5AzVfg2IPrIHEitgRsBYGaFkSMbWXXTk%2FI9%2FhwLaCoJXFMPaKg7pbpdHp&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20221209T183647Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=ASIASXCYXIIFCOMSD4VS%2F20221209%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=4eb7545ce2a410971463e71cf5a59ab0a38ac8f54ac87f40c586f75b8a8d8aec>
+        </div>
+        <div class="column">
+          <h2>Receipe</h2>
+          <p>Cuisine Type: SAMPLE</p>
+          <p>Cook Time: 60</p>
+          <p>Calories Per Serving: 250</p>
+        </div>
+        <div class="column is-narrow">
+          <button class="delete is-large"></button>
+        </div>
+      </div>
+      
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" id="clearBookmarks">Remove All Bookmarks</button>
+    </footer>
+  </div>
+</div>
+<button class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<script src="./assets/js/script.js"></script>
+</body>
+
 </html>
