@@ -41,15 +41,24 @@ var ingredient1Input = document.querySelector("#ingredient1");
 var ingredient2Input = document.querySelector("#ingredient2");
 var ingredient3Input = document.querySelector("#ingredient3");
 var ingredient4Input = document.querySelector("#ingredient4");
+var recipeContent = document.querySelector('content');
 var recipeArrayLength = 0;
 
 var recipeArray = [];
 var firstLoad = true;
 
+<<<<<<< HEAD
 var noResults = false;
 var receipeList = document.querySelector("#receipeList");
 var searchBoxText = document.querySelector("#searchBoxText");
 var searchBtn = document.querySelector("#searchBtn");
+=======
+var receipeList = document.querySelector('#receipeList')
+var searchBoxText = document.querySelector('#searchBoxText')
+var searchBtn = document.querySelector('#searchBtn');
+var bookmarkAnchor = document.querySelector("#bookmarkAnchor");
+var clearBookmarks = document.querySelector('#clearBookmarks');
+>>>>>>> 5687eaf5cfba53cad990fa445d3d957175b3a128
 
 /* Start of Edamam API Variables */
 var edamamApiKey = "e6371ff056c6f2217c6e6095d104cdeb";
@@ -114,6 +123,7 @@ function edamamURLBuilder() {
     ingredients = "&q=" + ingredient1 + ingredient2 + ingredient3 + ingredient4;
   }
 
+<<<<<<< HEAD
   requestUrl =
     "https://api.edamam.com/api/recipes/v2?imageSize=THUMBNAIL&type=public&app_key=" +
     edamamApiKey +
@@ -124,6 +134,11 @@ function edamamURLBuilder() {
     time +
     ingredients;
   requestUrl = requestUrl.replaceAll(" ", "%20"); //Finds any spaces and replaces these with %20
+=======
+  requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=REGULAR&type=public&app_key=" + edamamApiKey + "&app_id=" + edamamApiID + cuisineType + mealType + time + ingredients;
+  requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
+
+>>>>>>> 5687eaf5cfba53cad990fa445d3d957175b3a128
 }
 
 /* This function performs the Edamam API call to gather the recipe data and stores it locally */
@@ -147,7 +162,7 @@ function edamamAPI(event) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
           cuisineType: data.hits[i].recipe.cuisineType[0],
-          imageThumbnail: data.hits[i].recipe.images.THUMBNAIL.url,
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
           url: data.hits[i].recipe.shareAs,
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
@@ -214,7 +229,43 @@ storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
+receipeList.addEventListener("click", bookmarkSave);
+clearBookmarks.addEventListener("click", clearAllBookmarks);
 
+var bookmark;
+
+function bookmarkSave(event){
+  console.log("bookmarkSave has triggered");
+  console.log(event.target.getAttribute('bookmarkArray'));
+  console.log(event.target.classList);
+    if (event.target.getAttribute('bookmarkArray') === null){
+    console.log("caught the if");
+    return;
+  };
+  bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
+  if (bookmark === null){
+    console.log("boomark is null");
+    bookmark = [];
+  };
+  dataAttribute = event.target.getAttribute('bookmarkArray');
+  console.log(recipeArray[dataAttribute]);
+  bookmark.push(recipeArray[dataAttribute]);
+  localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+}
+
+function clearAllBookmarks (){
+  console.log("clearAllBookmarks has run");
+  bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
+    /* Clearing any previously made child elements */
+    console.log(bookmark.length);
+    if (bookmark.length > 0) {
+      for (let i = 0; i < 1; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
+        bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
+      }
+    }
+    bookmark = [];
+    localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+}
 /*----------------------------JS for the dropdown buttons--------------------------*/
 dropdown1.addEventListener("click", function () {
   dropdown1.classList.toggle("is-active");
@@ -342,6 +393,7 @@ function recipeDisplay() {
     var calories = document.createElement("p");
     var timeTaken = document.createElement("p");
     var createA = document.createElement("a");
+    var bookmarkBtn = document.createElement("button")
     //   /* Element Updates */
     columnDivEl.classList.add("column");
     columnDivEl.classList.add("is-2");
@@ -350,6 +402,7 @@ function recipeDisplay() {
     figureEl.classList.add("image");
     figureEl.classList.add("is-96by96");
     cardContentDiv.classList.add("card-content");
+    cardContentDiv.classList.add("pt-1");
     cuisineName.classList.add("title");
     cuisineName.classList.add("is-5");
     cuisineName.classList.add("ml-3");
@@ -359,6 +412,12 @@ function recipeDisplay() {
     timeTaken.classList.add("ml-3");
     timeTaken.classList.add("mb-0");
     cuisineName.classList.add("has-text-info");
+    bookmarkBtn.classList.add("pb-1");
+    bookmarkBtn.classList.add("bookmark");
+    bookmarkBtn.classList.add("button");
+    bookmarkBtn.classList.add("is-primary"); //not working
+    bookmarkBtn.classList.add("is-small"); //not working
+    bookmarkBtn.setAttribute("bookmarkArray",[i])
     recipeImg.setAttribute("src", recipeArray[i].recipeLoop.imageThumbnail);
     recipeImg.setAttribute("alt", recipeArray[i].recipeLoop.recipeName);
     recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
@@ -371,6 +430,8 @@ function recipeDisplay() {
     cardDivEl.appendChild(cardContentDiv);
     cardImgDivEl.appendChild(figureEl);
     figureEl.appendChild(recipeImg);
+    cardContentDiv.appendChild(bookmarkBtn);
+    bookmarkBtn.textContent = "Bookmark Recipe";
     cardContentDiv.appendChild(createA);
     cardContentDiv.appendChild(calories);
     cardContentDiv.appendChild(timeTaken);
@@ -388,3 +449,56 @@ function recipeDisplay() {
     }
   }
 }
+<<<<<<< HEAD
+=======
+
+
+/* Modal JS */
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Functions to open and close a modal
+  function openModal($el) {
+    $el.classList.add('is-active');
+  }
+
+  function closeModal($el) {
+    $el.classList.remove('is-active');
+  }
+
+  function closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      closeModal($modal);
+    });
+  }
+
+  // Add a click event on buttons to open a specific modal
+  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+  // Add a click event on various child elements to close the parent modal
+  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    const $target = $close.closest('.modal');
+
+    $close.addEventListener('click', () => {
+      closeModal($target);
+    });
+  });
+
+  // Add a keyboard event to close all modals
+  document.addEventListener('keydown', (event) => {
+    const e = event || window.event;
+
+    if (e.keyCode === 27) { // Escape key
+      closeAllModals();
+    }
+  });
+});
+>>>>>>> 5687eaf5cfba53cad990fa445d3d957175b3a128
