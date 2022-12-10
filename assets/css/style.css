@@ -1,0 +1,23 @@
+body {
+  background-image: url(../images/food.jpg);
+  background-size: cover;
+  background-repeat: repeat;
+  width: 100vw;
+  height: 180vh;
+}
+@media (max-width: 780px) {
+  .bg-image {
+    background-image: url(../images/food.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    width: 100vw;
+    height: 200vh;
+  }
+}
+.button.is-large {
+  margin-left: -22px;
+  font-size: 1.5rem;
+}
+.hidden {
+  display: none;
+}
