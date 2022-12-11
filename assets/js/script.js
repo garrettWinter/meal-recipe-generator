@@ -1,5 +1,7 @@
 console.log("Connected");
 /* Global Variables  */
+var test = document.getElementById("test");
+console.log(test.textContent.length);
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
 var dropdown2 = document.getElementById("dropdown-2");
@@ -44,12 +46,11 @@ var ingredient4Input = document.querySelector("#ingredient4");
 var recipeContent = document.querySelector("content");
 var previousBtn = document.getElementById("previous");
 var nextBtn = document.getElementById("next");
+var nevArea = document.getElementById("nav-area");
 var recipeArrayLength = 0;
 var recipeArray = [];
-var recipeArray2 = [];
-var recipeArray3 = [];
-var recipeArray4 = [];
-var recipeArray5 = [];
+var pagesList = [];
+var page = [];
 
 var firstLoad = true;
 
@@ -154,6 +155,13 @@ function edamamAPI(event) {
       /* Cleaning out old search data*/
       recipeArray = [];
       /* Data processing*/
+      if (data._links.next.href !== null) {
+        var newPage = data._links.next.href;
+        localStorage.setItem("page_link", JSON.stringify(newPage));
+        var newPage = JSON.parse(localStorage.page_link);
+      } else {
+      }
+
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
@@ -392,6 +400,9 @@ function recipeDisplay() {
       contentArea.removeChild(contentArea.children[0]);
     }
   }
+  // Nav Area Show
+  nevArea.classList = "show";
+  // Nav Area Show
   // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
   console.log("Length of Recipe Array is: " + recipeArray.length);
@@ -411,7 +422,12 @@ function recipeDisplay() {
     var bookmarkBtn = document.createElement("button");
     //   /* Element Updates */
     columnDivEl.classList.add("column");
-    columnDivEl.classList.add("is-2");
+    columnDivEl.classList.add("is-narrow");
+    columnDivEl.classList.add("is-three-quarters-mobile");
+    columnDivEl.classList.add("is-two-thirds-tablet");
+    columnDivEl.classList.add("is-half-desktop");
+    columnDivEl.classList.add("is-one-third-widescreen");
+    columnDivEl.classList.add("is-one-quarter-fullhd");
     columnDivEl.classList.add("is-flex");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
@@ -420,7 +436,6 @@ function recipeDisplay() {
     cardContentDiv.classList.add("card-content");
     cardContentDiv.classList.add("pt-1");
     cuisineName.classList.add("title");
-    cuisineName.classList.add("is-4");
     cuisineName.classList.add("ml-3");
     cuisineName.classList.add("mb-1");
     calories.classList.add("ml-3");
@@ -468,9 +483,12 @@ function recipeDisplay() {
     if (recipeArray[i].recipeLoop.timeTaken === 0) {
       timeTaken.textContent = "This can be made in no time!";
     }
+    if (recipeArray[i].recipeLoop.recipeName.length >= 25) {
+      cuisineName.classList.add("is-5");
+    } else {
+      cuisineName.classList.add("is-4");
+    }
   }
-
-  /* Modal JS */
 
   document.addEventListener("DOMContentLoaded", () => {
     // Functions to open and close a modal
@@ -538,3 +556,59 @@ function clearResults() {
   });
 }
 window.onload = clearResults();
+
+nextBtn.addEventListener("click", function nextPage() {
+  var pageLink = JSON.parse(localStorage.page_link);
+  localStorage.getItem(pageLink);
+  fetch(pageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("----------\n Giphy API Response Data \n----------");
+      console.log(data);
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+        };
+        pagesList.push({ recipeLoop });
+      }
+      var newPage = data._links.next.href;
+      localStorage.setItem("page_link", JSON.stringify(newPage));
+      localStorage.setItem("pagesList", JSON.stringify(pagesList));
+    });
+});
+
+previousBtn.addEventListener("click", function nextPage() {
+  var pageLink = JSON.parse(localStorage.page_link);
+  localStorage.getItem(pageLink);
+  fetch(pageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("----------\n Giphy API Response Data \n----------");
+      console.log(data);
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+        };
+        pagesList.push({ recipeLoop });
+      }
+      var newPage = data._links.next.href;
+      localStorage.setItem("page_link", JSON.stringify(newPage));
+      localStorage.setItem("pagesList", JSON.stringify(pagesList));
+    });
+});

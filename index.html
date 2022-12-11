@@ -31,7 +31,7 @@
     </header>
     <div class="columns">
       <div class="column is-one-quarter">
-        <div class="card ml-6">
+        <div class="card ml-3 mr-3">
           <div class="card-content has-background-grey-dark">
             <h2 class="label has-text-white is-size-3">
               Select your preferences below
@@ -253,8 +253,8 @@
           </div>
         </div>
       </div>
-      <div class="column mr-6">
-        <div class="card-2 card-content has-background-grey-dark">
+      <div class="column">
+        <div class="card card-content has-background-grey-dark card ml-3 mr-3">
           <div class="content">
             <h2 id="searchBoxText" class="label has-text-white is-size-3">
               Results for corresponding recipes will appear below:
@@ -263,7 +263,7 @@
               <div class="columns is-multiline" id="content-area">
                 <!-- Recipe List is generated via Java Script -->
               </div>
-              <div id="nav-area" class="">
+              <div id="nav-area" class="hidden">
                 <nav
                   class="pagination is-centered"
                   role="navigation"
@@ -277,15 +277,7 @@
                   <a class="pagination-next has-background-light" id="next"
                     >Next page</a
                   >
-                  <ul class="pagination-list">
-                    <li>
-                      <a
-                        class="pagination-link has-background-light"
-                        aria-label="Goto page 1"
-                        >1</a
-                      >
-                    </li>
-                  </ul>
+                  <ul class="pagination-list"></ul>
                 </nav>
               </div>
             </ul>
