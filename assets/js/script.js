@@ -43,11 +43,15 @@ var ingredient4Input = document.querySelector("#ingredient4");
 var recipeContent = document.querySelector("content");
 var previousBtn = document.getElementById("previous");
 var nextBtn = document.getElementById("next");
+var hiddenTest = document.getElementById("messageText");
 var navArea = document.getElementById("nav-area");
 var recipeArrayLength = 0;
+var currentPage = 0;
 var recipeArray = [];
 var page = [];
 var currentData = [];
+var urlArray = [];
+var pastUrls = [];
 
 var firstLoad = true;
 
@@ -79,7 +83,6 @@ var giphy = document.querySelector("#giphy");
 var giphyAttribution = document.querySelector("#giphyAttribution");
 
 function edamamURLBuilder() {
-  console.log("edamamURLBuilder has been trigged");
   /* Updating the variables to so they have most recent values */
   cuisineType = dropdownBtn1.innerText;
   mealType = dropdownBtn2.innerText;
@@ -134,11 +137,15 @@ function edamamURLBuilder() {
     time +
     ingredients;
   requestUrl = requestUrl.replaceAll(" ", "%20"); //Finds any spaces and replaces these with %20
+  pastUrls.push([requestUrl]);
 }
 
 /* This function performs the Edamam API call to gather the recipe data and stores it locally */
 function edamamAPI(event) {
-  console.log("edamamAPI has been trigged");
+  currentPage = 0;
+  localStorage.setItem("CurrentPage", currentPage);
+  pastUrls = [];
+
   searchBoxText.textContent =
     "Results for corresponding recipes will appear below:";
   edamamURLBuilder();
@@ -148,16 +155,18 @@ function edamamAPI(event) {
       return response.json();
     })
     .then(function (data) {
-      console.log("----------\n Recipe API Response Data \n----------");
-      console.log(data);
       /* Cleaning out old search data*/
       recipeArray = [];
       /* Data processing*/
-      if (data._links.next.href !== null) {
-        var newPage = data._links.next.href;
-        localStorage.setItem("page_link", JSON.stringify(newPage));
-        var newPage = JSON.parse(localStorage.page_link);
-      } else {
+      var newPage = data._links.next.href;
+      localStorage.setItem("page_link", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.page_link);
+      if (data.count < 20) {
+        navArea.classList = "hidden";
+        hiddenTest.classList = "show";
+      } else if (data.count > 20) {
+        navArea.classList = "show";
+        hiddenTest.classList = "hidden";
       }
 
       for (let i = 0; i < data.hits.length; i++) {
@@ -173,12 +182,7 @@ function edamamAPI(event) {
         };
         recipeArray.push({ recipeLoop });
       }
-      if (data._links.next.href !== null) {
-      }
       localStorage.setItem("recipes", JSON.stringify(recipeArray));
-
-      console.log("----------\n Trimmed down API Response Data \n----------");
-      console.log(recipeArray);
       if (recipeArray.length === 0) {
         searchBoxText.textContent =
           "No search results found based on your choices, please try again!";
@@ -200,8 +204,6 @@ function edamamAPI(event) {
 var userInput = "breakfast";
 
 function giphyAPITesting(event) {
-  console.log("Testing has been trigged");
-  console.log(mealType);
   if (mealType === "") {
     userInput = "breakfast";
   } else if (mealType != "Any") {
@@ -211,31 +213,25 @@ function giphyAPITesting(event) {
   if (recipeArray.length === 0) {
     userInput = "sad";
   }
-  console.log("Giphy Search Term:" + userInput);
 
   /* Setting the URL and triggering the GET API */
   var requestUrl =
     "https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=" +
     userInput +
     "%20food&rating=pg";
-  console.log(requestUrl);
+
   fetch(requestUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log("----------\n Giphy API Response Data \n----------");
-      console.log(data);
-      console.log(data.data.url);
       fixedImg = data.data.images.fixed_width.url;
-      console.log(fixedImg);
       giphy.setAttribute("src", fixedImg);
       giphyAttribution.setAttribute("src", "./assets/images/giphyimg.png");
     });
 }
 function storageRetrieval() {
   if (localStorage.recipes === undefined) {
-    console.log("if statement ran");
     return;
   }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
@@ -257,18 +253,14 @@ function bookmarkSave(event) {
   }
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
   if (bookmark === null) {
-    console.log("boomark is null");
     bookmark = [];
   }
   dataAttribute = event.target.getAttribute("bookmarkArray");
-  console.log(recipeArray[dataAttribute]);
   bookmark.push(recipeArray[dataAttribute]);
   localStorage.setItem("bookmarkRecipes", JSON.stringify(bookmark));
 }
 
 function clearAllBookmarks() {
-  console.log("clearAllBookmarks has run");
-  console.log(bookmarkAnchor.childElementCount);
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
   /* Clearing any previously made child elements */
   if (bookmarkAnchor.childElementCount > 0) {
@@ -394,10 +386,7 @@ function recipeDisplay() {
       contentArea.removeChild(contentArea.children[0]);
     }
   }
-  // Nav Area Show
-  navArea.classList = "show";
-  // Nav Area Show
-  // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
+
   recipeArrayLength = recipeArray.length;
   for (let i = 0; i < recipeArrayLength; i++) {
     //   /* Element Creation for recipies*/
@@ -486,6 +475,11 @@ function recipeDisplay() {
     if (recipeArray[i].recipeLoop.timeTaken === 0) {
       timeTaken.textContent = "This can be made in no time!";
     }
+    if (recipeArray[i].recipeLoop.timeTaken > 60) {
+      var hour = recipeArray[i].recipeLoop.timeTaken / 60;
+      timeTaken.textContent =
+        "This will take " + Math.trunc(hour) + " hours to make";
+    }
     if (recipeArray[i].recipeLoop.recipeName.length >= 25) {
       cuisineName.classList.add("is-5");
     } else {
@@ -549,21 +543,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function bookmarkModalTrigger() {
-  console.log("bookmarkModalTrigger has run");
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
   if (bookmark === null) {
-    console.log("Bookmark was null");
     bookmark = [];
   }
   if (bookmark.length === 0) {
-    console.log("bookmark.length is 0");
     bookmarkAnchor.innerHTML =
       "Were sorry you have no bookmarks saved. We hope you find some delicious receipies!";
   }
   if (bookmarkAnchor.childElementCount > 0) {
-    console.log(
-      "boommarkAmchor has " + bookmarkAnchor.childElementCount + "children"
-    );
     for (let i = 0; i < bookmarkAnchor.childElementCount; i++) {
       // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
       bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
@@ -574,10 +562,8 @@ function bookmarkModalTrigger() {
   // modalImageA.setAttribute("target", "_blank");
 
   if (bookmark.length > 0) {
-    console.log("Bookmark.length is " + bookmark.length);
     bookmarkAnchor.innerHTML = "";
     for (let i = 0; i < bookmark.length; i++) {
-      console.log([i]);
       /* Creation of Elements*/
       var modalColumnsDiv = document.createElement("div");
       var modalImageDiv = document.createElement("div");
@@ -645,16 +631,20 @@ function bookmarkModalTrigger() {
 }
 
 nextBtn.addEventListener("click", function nextPage() {
-  page = [];
+  currentPage++;
+  localStorage.setItem("CurrentPage", currentPage);
+  localStorage.setItem("PastUrls", JSON.stringify(pastUrls));
+
+  recipeArray = [];
   var pageLink = JSON.parse(localStorage.page_link);
   localStorage.getItem(pageLink);
+  pastUrls.push([pageLink]);
+
   fetch(pageLink)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log("----------\n Next Page Data \n----------");
-      console.log(data);
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
@@ -666,84 +656,66 @@ nextBtn.addEventListener("click", function nextPage() {
           yield: data.hits[i].recipe.yield,
           recipeUrl: data.hits[i].recipe.url,
         };
-        page.push({ recipeLoop });
+        recipeArray.push({ recipeLoop });
+      }
+
+      var newLink = data._links.next.href;
+
+      var newPage = recipeArray;
+      localStorage.setItem("page_link", JSON.stringify(newLink));
+      localStorage.setItem("recipes", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.recipes);
+      recipeDisplay();
+    });
+  recipeDisplay();
+});
+
+previousBtn.addEventListener("click", function previousPage() {
+  currentPage--;
+  var test = currentPage;
+  var pastUrls = JSON.parse(localStorage.getItem("PastUrls"));
+  var newPageLink = pastUrls[test];
+  recipeArray = [];
+  fetch(newPageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
+        };
+        recipeArray.push({ recipeLoop });
       }
       var newLink = data._links.next.href;
-      var newPage = page;
+      var newPage = recipeArray;
       localStorage.setItem("page_link", JSON.stringify(newLink));
-      localStorage.setItem("NewPage", JSON.stringify(newPage));
-      var newPage = JSON.parse(localStorage.NewPage);
+      localStorage.setItem("recipes", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.recipes);
+      recipeDisplay();
     });
-  currentData = [];
-  var cuisineName = document.querySelectorAll(".cuisineName");
-  var timeTaken = document.querySelectorAll(".timeTaken");
-  var calories = document.querySelectorAll(".calories");
-  var servings = document.querySelectorAll(".servings");
-  var anchor = document.querySelectorAll(".anchor");
-  var anchor2 = document.querySelectorAll(".anchor2");
-  var image = document.querySelectorAll(".recipeImage");
-  var newPage = JSON.parse(localStorage.NewPage);
-  console.log(newPage);
-  var newPageLength = newPage.length;
-  for (var i = 0; i < newPageLength; i++) {
-    for (var i = 0; i < cuisineName.length; i++) {
-      var cuisineNameText = cuisineName[i];
-      cuisineNameText.innerHTML = newPage[i].recipeLoop.recipeName;
-    }
-    for (var i = 0; i < timeTaken.length; i++) {
-      var timeTakenText = timeTaken[i];
-
-      if (newPage[i].recipeLoop.timeTaken === 0) {
-        timeTaken.innerHTML = "This can be made in no time!";
-      } else {
-        timeTakenText.innerHTML =
-          "This will take " + newPage[i].recipeLoop.timeTaken + " min to make.";
-      }
-    }
-    for (var i = 0; i < calories.length; i++) {
-      var caloriesText = calories[i];
-
-      caloriesText.innerHTML =
-        "This meal contains " +
-        Math.trunc(newPage[i].recipeLoop.calories) +
-        " calories.";
-    }
-    for (var i = 0; i < servings.length; i++) {
-      var servingsText = servings[i];
-
-      servingsText.innerHTML =
-        "This will net you " + newPage[i].recipeLoop.yield + " servings.";
-    }
-    for (var i = 0; i < anchor.length; i++) {
-      var anchorElement = anchor[i];
-
-      anchorElement.setAttribute("href", newPage[i].recipeLoop.url);
-    }
-    for (var i = 0; i < anchor2.length; i++) {
-      var anchor2Element = anchor2[i];
-
-      anchor2Element.setAttribute("href", newPage[i].recipeLoop.recipeUrl);
-    }
-    for (var i = 0; i < image.length; i++) {
-      var imageElement = image[i];
-      imageElement.setAttribute("src", newPage[i].recipeLoop.imageThumbnail);
-      imageElement.setAttribute("alt", newPage[i].recipeLoop.recipeName);
-      imageElement.setAttribute("title", newPage[i].recipeLoop.recipeName);
-    }
-  }
+  recipeDisplay();
 });
 
 function clearResults() {
   if (localStorage.length === 0) {
-    console.log("local storage empty");
+    navArea.classList = "hidden";
   } else {
-    console.log("local storage full");
     clearBtnDisplay.classList = "show";
   }
   clearBtn.addEventListener("click", () => {
     localStorage.removeItem("recipes");
     localStorage.removeItem("NewPage");
     localStorage.removeItem("page_link");
+    localStorage.removeItem("PastUrls");
+    localStorage.removeItem("CurrentPage");
     location.reload();
   });
 }
@@ -751,13 +723,10 @@ window.firstLoad = clearResults();
 window.reload = clearResults();
 
 function bookmarkSingleDelete(event) {
-  console.log("bookmarkSingleDelete has run");
-  console.log(event.target.getAttribute("modalIndex"));
   if (event.target.getAttribute("modalIndex") === null) {
     return;
   }
   numToDelete = event.target.getAttribute("modalIndex");
-  console.log(numToDelete);
   bookmark.splice(numToDelete, 1);
   localStorage.setItem("bookmarkRecipes", JSON.stringify(bookmark));
   bookmarkModalTrigger();
