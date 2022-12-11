@@ -42,6 +42,8 @@ var ingredient2Input = document.querySelector("#ingredient2");
 var ingredient3Input = document.querySelector("#ingredient3");
 var ingredient4Input = document.querySelector("#ingredient4");
 var recipeContent = document.querySelector("content");
+var previousBtn = document.getElementById("previous");
+var nextBtn = document.getElementById("next");
 var recipeArrayLength = 0;
 var recipeArray = [];
 
@@ -399,6 +401,7 @@ function recipeDisplay() {
     var cuisineName = document.createElement("p");
     var calories = document.createElement("p");
     var timeTaken = document.createElement("p");
+    var servings = document.createElement("p");
     var createA = document.createElement("a");
     var bookmarkBtn = document.createElement("button");
     //   /* Element Updates */
@@ -419,6 +422,8 @@ function recipeDisplay() {
     calories.classList.add("mb-1");
     timeTaken.classList.add("ml-3");
     timeTaken.classList.add("mb-0");
+    servings.classList.add("ml-3");
+    servings.classList.add("mb-0");
     cuisineName.classList.add("has-text-info");
     bookmarkBtn.classList.add("pb-1");
     bookmarkBtn.classList.add("ml-3");
@@ -444,7 +449,7 @@ function recipeDisplay() {
     cardContentDiv.appendChild(createA);
     cardContentDiv.appendChild(calories);
     cardContentDiv.appendChild(timeTaken);
-    cardContentDiv.appendChild(timeTaken);
+    cardContentDiv.appendChild(servings);
     createA.appendChild(cuisineName);
     cuisineName.textContent = recipeArray[i].recipeLoop.recipeName;
     calories.textContent =
@@ -452,8 +457,9 @@ function recipeDisplay() {
       Math.trunc(recipeArray[i].recipeLoop.calories) +
       " calories.";
     timeTaken.textContent =
-      "This will take " + recipeArray[i].recipeLoop.timeTaken + " min to make";
-
+      "This will take " + recipeArray[i].recipeLoop.timeTaken + " min to make.";
+    servings.textContent =
+      "This will net you " + recipeArray[i].recipeLoop.yield + " servings.";
     if (recipeArray[i].recipeLoop.timeTaken === 0) {
       timeTaken.textContent = "This can be made in no time!";
     }
