@@ -1,4 +1,3 @@
-console.log("Connected");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
@@ -43,8 +42,12 @@ var ingredient3Input = document.querySelector("#ingredient3");
 var ingredient4Input = document.querySelector("#ingredient4");
 var recipeContent = document.querySelector('content');
 var recipeArrayLength = 0;
-
+var nextBtn = document.getElementById("next");
+var navArea = document.getElementById("nav-area");
 var recipeArray = [];
+var page = [];
+var currentData = [];
+
 var firstLoad = true;
 
 var receipeList = document.querySelector('#receipeList')
@@ -149,7 +152,7 @@ function edamamAPI(event) {
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
           yield: data.hits[i].recipe.yield,
-          nextPage: data.hits[i]._links.self.href,
+          recipeUrl: data.hits[i].recipe.url,
         };
         recipeArray.push({ recipeLoop });
       }
@@ -225,12 +228,8 @@ bookmarkAnchor.addEventListener("click", bookmarkSingleDelete);
 
 var bookmark;
 
-function bookmarkSave(event){
-  console.log("bookmarkSave has triggered");
-  console.log(event.target.getAttribute('bookmarkArray'));
-  console.log(event.target.classList);
-    if (event.target.getAttribute('bookmarkArray') === null){
-    console.log("caught the if");
+function bookmarkSave(event) {
+  if (event.target.getAttribute("bookmarkArray") === null) {
     return;
   };
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
@@ -362,21 +361,19 @@ dropdownItem_3_6.addEventListener("click", function () {
 
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
-  console.log("recipeDisplay has run");
-  if (recipeArray.length === 0){
+  if (recipeArray.length === 0) {
     return;
   }
   /* Clearing any previously made child elements */
-  console.log(recipeArrayLength);
   if (recipeArrayLength > 0) {
     for (let i = 0; i < recipeArrayLength; i++) {
       contentArea.removeChild(contentArea.children[0]);
     }
   }
+  navArea.classList='show';
   // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
-  console.log("Length of Recipe Array is: " + recipeArray.length);
-  for (let i = 0; i < recipeArray.length; i++) {
+  for (let i = 0; i < recipeArrayLength; i++) {
     //   /* Element Creation for recipies*/
     var columnDivEl = document.createElement("div");
     var cardDivEl = document.createElement("div");
@@ -387,12 +384,18 @@ function recipeDisplay() {
     var cuisineName = document.createElement("p");
     var calories = document.createElement("p");
     var timeTaken = document.createElement("p");
+    var servings = document.createElement("p");
     var createA = document.createElement("a");
-    var bookmarkBtn = document.createElement("button")
+    var createA2 = document.createElement("a");
+    var bookmarkBtn = document.createElement("button");
     //   /* Element Updates */
     columnDivEl.classList.add("column");
-    columnDivEl.classList.add("is-2");
-    columnDivEl.classList.add("is-flex");
+    columnDivEl.classList.add("is-narrow");
+    columnDivEl.classList.add("is-three-quarters-mobile");
+    columnDivEl.classList.add("is-two-thirds-tablet");
+    columnDivEl.classList.add("is-half-desktop");
+    columnDivEl.classList.add("is-one-third-widescreen");
+    columnDivEl.classList.add("is-one-quarter-fullhd");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
     figureEl.classList.add("image");
@@ -403,10 +406,19 @@ function recipeDisplay() {
     cuisineName.classList.add("is-5");
     cuisineName.classList.add("ml-3");
     cuisineName.classList.add("mb-1");
+    cuisineName.classList.add("cuisineName");
     calories.classList.add("ml-3");
     calories.classList.add("mb-1");
+    calories.classList.add("calories");
     timeTaken.classList.add("ml-3");
     timeTaken.classList.add("mb-0");
+    timeTaken.classList.add("timeTaken");
+    servings.classList.add("ml-3");
+    servings.classList.add("mb-0");
+    servings.classList.add("servings");
+    createA.classList.add("anchor");
+    createA2.classList.add("anchor2");
+    recipeImg.classList.add("recipeImage");
     cuisineName.classList.add("has-text-info");
     bookmarkBtn.classList.add("pb-1");
     bookmarkBtn.classList.add("bookmark");
@@ -419,13 +431,16 @@ function recipeDisplay() {
     recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
     createA.setAttribute("href", recipeArray[i].recipeLoop.url);
     createA.setAttribute("target", "_blank");
+    createA2.setAttribute("href", recipeArray[i].recipeLoop.recipeUrl);
+    createA2.setAttribute("target", "_blank");
     /* Element Appending */
     contentArea.appendChild(columnDivEl);
     columnDivEl.appendChild(cardDivEl);
     cardDivEl.appendChild(cardImgDivEl);
     cardDivEl.appendChild(cardContentDiv);
     cardImgDivEl.appendChild(figureEl);
-    figureEl.appendChild(recipeImg);
+    figureEl.appendChild(createA2);
+    createA2.appendChild(recipeImg);
     cardContentDiv.appendChild(bookmarkBtn);
     bookmarkBtn.textContent = "Bookmark Recipe";
     cardContentDiv.appendChild(createA);
@@ -586,7 +601,112 @@ function bookmarkModalTrigger() {
   }
 }
 
-// array.remove(index)
+nextBtn.addEventListener("click", function nextPage() {
+  page = [];
+  var pageLink = JSON.parse(localStorage.page_link);
+  localStorage.getItem(pageLink);
+  fetch(pageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("----------\n Next Page Data \n----------");
+      console.log(data);
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
+        };
+        page.push({ recipeLoop });
+      }
+      var newLink = data._links.next.href;
+      var newPage = page;
+      localStorage.setItem("page_link", JSON.stringify(newLink));
+      localStorage.setItem("NewPage", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.NewPage);
+    });
+  currentData = [];
+  var cuisineName = document.querySelectorAll(".cuisineName");
+  var timeTaken = document.querySelectorAll(".timeTaken");
+  var calories = document.querySelectorAll(".calories");
+  var servings = document.querySelectorAll(".servings");
+  var anchor = document.querySelectorAll(".anchor");
+  var anchor2 = document.querySelectorAll(".anchor2");
+  var image = document.querySelectorAll(".recipeImage");
+  var newPage = JSON.parse(localStorage.NewPage);
+  console.log(newPage);
+  var newPageLength = newPage.length;
+  for (var i = 0; i < newPageLength; i++) {
+    for (var i = 0; i < cuisineName.length; i++) {
+      var cuisineNameText = cuisineName[i];
+      cuisineNameText.innerHTML = newPage[i].recipeLoop.recipeName;
+    }
+    for (var i = 0; i < timeTaken.length; i++) {
+      var timeTakenText = timeTaken[i];
+
+      if (newPage[i].recipeLoop.timeTaken === 0) {
+        timeTaken.innerHTML = "This can be made in no time!";
+      } else {
+        timeTakenText.innerHTML =
+          "This will take " + newPage[i].recipeLoop.timeTaken + " min to make.";
+      }
+    }
+    for (var i = 0; i < calories.length; i++) {
+      var caloriesText = calories[i];
+
+      caloriesText.innerHTML =
+        "This meal contains " +
+        Math.trunc(newPage[i].recipeLoop.calories) +
+        " calories.";
+    }
+    for (var i = 0; i < servings.length; i++) {
+      var servingsText = servings[i];
+
+      servingsText.innerHTML =
+        "This will net you " + newPage[i].recipeLoop.yield + " servings.";
+    }
+    for (var i = 0; i < anchor.length; i++) {
+      var anchorElement = anchor[i];
+
+      anchorElement.setAttribute("href", newPage[i].recipeLoop.url);
+    }
+    for (var i = 0; i < anchor2.length; i++) {
+      var anchor2Element = anchor2[i];
+
+      anchor2Element.setAttribute("href", newPage[i].recipeLoop.recipeUrl);
+    }
+    for (var i = 0; i < image.length; i++) {
+      var imageElement = image[i];
+      imageElement.setAttribute("src", newPage[i].recipeLoop.imageThumbnail);
+      imageElement.setAttribute("alt", newPage[i].recipeLoop.recipeName);
+      imageElement.setAttribute("title", newPage[i].recipeLoop.recipeName);
+    }
+  }
+});
+
+function clearResults() {
+  if (localStorage.length === 0) {
+    console.log("local storage empty");
+  } else {
+    console.log("local storage full");
+    clearBtnDisplay.classList = "show";
+  }
+  clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("recipes");
+    localStorage.removeItem("NewPage");
+    localStorage.removeItem("page_link");
+    location.reload();
+  });
+}
+window.firstLoad = clearResults();
+window.reload = clearResults();
+
 
 function bookmarkSingleDelete (event){
   console.log("bookmarkSingleDelete has run");
@@ -600,3 +720,4 @@ function bookmarkSingleDelete (event){
   localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
   bookmarkModalTrigger();
 }
+
