@@ -408,9 +408,9 @@ function recipeDisplay() {
     bookmarkBtn.classList.add("pb-1");
     bookmarkBtn.classList.add("bookmark");
     bookmarkBtn.classList.add("button");
-    bookmarkBtn.classList.add("is-primary"); //not working
-    bookmarkBtn.classList.add("is-small"); //not working
-    bookmarkBtn.setAttribute("bookmarkArray",[i])
+    bookmarkBtn.classList.add("is-primary");
+    bookmarkBtn.classList.add("is-small"); 
+    bookmarkBtn.setAttribute("bookmarkArray",[i]);
     recipeImg.setAttribute("src", recipeArray[i].recipeLoop.imageThumbnail);
     recipeImg.setAttribute("alt", recipeArray[i].recipeLoop.recipeName);
     recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
@@ -492,3 +492,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
+function bookmarkModalTrigger() {
+  // Clear Previous elements.... get count using childElementCount
+
+
+  for (let i = 0; i < bookmark.length; i++) {
+    /* Creation of Elements*/
+    var modalColumnsDiv = document.createElement("div");
+    var modalImageDiv = document.createElement("div");
+    var modalImage = document.createElement("img");
+    var modalReceipeDiv = document.createElement("div");
+    var modalReceipeH2 = document.createElement("h2");
+    var modalCuisineP = document.createElement("p");
+    var modalCookTimeP = document.createElement("p");
+    var modalCaloriesP = document.createElement("p");
+    var modalDeleteDiv = document.createElement("div");
+    var modalDeleteBtn = document.createElement("button");
+
+    /* Class and Attribute updates */
+    modalColumnsDiv.classList.add("columns");
+    modalColumnsDiv.classList.add("is-1");
+    modalImageDiv.classList.add("column");
+    modalImageDiv.classList.add("is-narrow");
+    modalImage.classList.add("image");
+    modalImage.classList.add("is-128x128");
+    modalImage.setAttribute("src", bookmark[i].recipeLoop.imageThumbnail); // This needs to be updated
+    modalReceipeDiv.classList.add("column");
+    modalDeleteDiv.classList.add("column");
+    modalDeleteDiv.classList.add("is-narrow");
+    modalDeleteBtn.setAttribute("modalIndex", [i]);
+    modalDeleteBtn.classList.add("is-large");
+    modalDeleteBtn.classList.add("delete");
+
+    /* Appending Elements to the modal */
+    bookmarkAnchor.appendChild(modalColumnsDiv);
+    modalColumnsDiv.appendChild(modalImageDiv);
+    modalImageDiv.appendChild(modalImage);
+    modalColumnsDiv.appendChild(modalReceipeDiv);
+    modalReceipeDiv.appendChild(modalReceipeH2);
+    modalReceipeDiv.appendChild(modalCuisineP);
+    modalReceipeDiv.appendChild(modalCookTimeP);
+    modalReceipeDiv.appendChild(modalCaloriesP);
+    modalColumnsDiv.appendChild(modalDeleteDiv);
+    modalDeleteDiv.appendChild(modalDeleteBtn);
+
+    /* Content Updates */
+    modalReceipeH2.innerHTML = bookmark[i].recipeLoop.recipeName; // This needs to be updated
+    modalCuisineP.innerHTML = "Cuisine: " + bookmark[i].recipeLoop.cuisineType; // This needs to be updated
+    modalCookTimeP.innerHTML = "Cook Time: " + bookmark[i].recipeLoop.timeTaken + " minutes"; // This needs to be updated
+    modalCaloriesP.innerHTML = "Calories Per Serving: " + Math.floor((bookmark[i].recipeLoop.calories) / (bookmark[i].recipeLoop.yield)); // This needs to be updated
+
+  }
+}
