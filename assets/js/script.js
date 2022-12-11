@@ -1,5 +1,7 @@
 console.log("Connected");
 /* Global Variables  */
+var test = document.getElementById("test");
+console.log(test.textContent.length);
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
 var dropdown2 = document.getElementById("dropdown-2");
@@ -426,6 +428,7 @@ function recipeDisplay() {
     columnDivEl.classList.add("is-half-desktop");
     columnDivEl.classList.add("is-one-third-widescreen");
     columnDivEl.classList.add("is-one-quarter-fullhd");
+    columnDivEl.classList.add("is-flex");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
     figureEl.classList.add("image");
@@ -433,7 +436,6 @@ function recipeDisplay() {
     cardContentDiv.classList.add("card-content");
     cardContentDiv.classList.add("pt-1");
     cuisineName.classList.add("title");
-    cuisineName.classList.add("is-4");
     cuisineName.classList.add("ml-3");
     cuisineName.classList.add("mb-1");
     calories.classList.add("ml-3");
@@ -481,9 +483,12 @@ function recipeDisplay() {
     if (recipeArray[i].recipeLoop.timeTaken === 0) {
       timeTaken.textContent = "This can be made in no time!";
     }
+    if (recipeArray[i].recipeLoop.recipeName.length >= 25) {
+      cuisineName.classList.add("is-5");
+    } else {
+      cuisineName.classList.add("is-4");
+    }
   }
-
-  /* Modal JS */
 
   document.addEventListener("DOMContentLoaded", () => {
     // Functions to open and close a modal
