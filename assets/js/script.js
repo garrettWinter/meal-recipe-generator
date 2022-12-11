@@ -397,7 +397,7 @@ function recipeDisplay() {
   // Nav Area Show
   // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
   recipeArrayLength = recipeArray.length;
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < recipeArrayLength; i++) {
     //   /* Element Creation for recipies*/
     var columnDivEl = document.createElement("div");
     var cardDivEl = document.createElement("div");
@@ -573,6 +573,7 @@ nextBtn.addEventListener("click", function nextPage() {
       var newPage = page;
       localStorage.setItem("page_link", JSON.stringify(newLink));
       localStorage.setItem("NewPage", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.NewPage);
     });
   currentData = [];
   var cuisineName = document.querySelectorAll(".cuisineName");
@@ -584,18 +585,20 @@ nextBtn.addEventListener("click", function nextPage() {
   var image = document.querySelectorAll(".recipeImage");
   var newPage = JSON.parse(localStorage.NewPage);
   console.log(newPage);
-  for (var i = 0; i < 18; i++) {
+  var newPageLength = newPage.length;
+  for (var i = 0; i < newPageLength; i++) {
     for (var i = 0; i < cuisineName.length; i++) {
       var cuisineNameText = cuisineName[i];
-
       cuisineNameText.innerHTML = newPage[i].recipeLoop.recipeName;
     }
     for (var i = 0; i < timeTaken.length; i++) {
       var timeTakenText = timeTaken[i];
-      timeTakenText.innerHTML =
-        "This will take " + newPage[i].recipeLoop.timeTaken + " min to make.";
+
       if (newPage[i].recipeLoop.timeTaken === 0) {
         timeTaken.innerHTML = "This can be made in no time!";
+      } else {
+        timeTakenText.innerHTML =
+          "This will take " + newPage[i].recipeLoop.timeTaken + " min to make.";
       }
     }
     for (var i = 0; i < calories.length; i++) {
@@ -631,7 +634,7 @@ nextBtn.addEventListener("click", function nextPage() {
   }
 });
 function clearResults() {
-  if (localStorage.length === 1) {
+  if (localStorage.length === 0) {
     console.log("local storage empty");
   } else {
     console.log("local storage full");
@@ -639,10 +642,10 @@ function clearResults() {
   }
   clearBtn.addEventListener("click", () => {
     localStorage.removeItem("recipes");
-    localStorage.setItem("NewPage", "");
+    localStorage.removeItem("NewPage");
     localStorage.removeItem("page_link");
     location.reload();
   });
 }
-
-window.onload = clearResults();
+window.firstLoad = clearResults();
+window.reload = clearResults();
