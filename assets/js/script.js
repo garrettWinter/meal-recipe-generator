@@ -52,6 +52,8 @@ var searchBoxText = document.querySelector('#searchBoxText')
 var searchBtn = document.querySelector('#searchBtn');
 var bookmarkAnchor = document.querySelector("#bookmarkAnchor");
 var clearBookmarks = document.querySelector('#clearBookmarks');
+var modalDelete = document.querySelector('.modalDelete'); 
+
 
 /* Start of Edamam API Variables */
 var edamamApiKey = "e6371ff056c6f2217c6e6095d104cdeb";
@@ -219,6 +221,7 @@ function storageRetrieval() {
 searchBtn.addEventListener("click", edamamAPI);
 receipeList.addEventListener("click", bookmarkSave);
 clearBookmarks.addEventListener("click", clearAllBookmarks);
+bookmarkAnchor.addEventListener("click", bookmarkSingleDelete);
 
 var bookmark;
 
@@ -243,11 +246,11 @@ function bookmarkSave(event){
 
 function clearAllBookmarks (){
   console.log("clearAllBookmarks has run");
+  console.log(bookmarkAnchor.childElementCount);
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
     /* Clearing any previously made child elements */
-    console.log(bookmark.length);
-    if (bookmark.length > 0) {
-      for (let i = 0; i < 1; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
+    if (bookmarkAnchor.childElementCount > 0) {
+      for (let i = 0; i < bookmarkAnchor.childElementCount; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
         bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
       }
     }
@@ -470,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $target = document.getElementById(modal);
 
     $trigger.addEventListener('click', () => {
+      bookmarkModalTrigger();
       openModal($target);
     });
   });
@@ -495,54 +499,104 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function bookmarkModalTrigger() {
-  // Clear Previous elements.... get count using childElementCount
-
-
-  for (let i = 0; i < bookmark.length; i++) {
-    /* Creation of Elements*/
-    var modalColumnsDiv = document.createElement("div");
-    var modalImageDiv = document.createElement("div");
-    var modalImage = document.createElement("img");
-    var modalReceipeDiv = document.createElement("div");
-    var modalReceipeH2 = document.createElement("h2");
-    var modalCuisineP = document.createElement("p");
-    var modalCookTimeP = document.createElement("p");
-    var modalCaloriesP = document.createElement("p");
-    var modalDeleteDiv = document.createElement("div");
-    var modalDeleteBtn = document.createElement("button");
-
-    /* Class and Attribute updates */
-    modalColumnsDiv.classList.add("columns");
-    modalColumnsDiv.classList.add("is-1");
-    modalImageDiv.classList.add("column");
-    modalImageDiv.classList.add("is-narrow");
-    modalImage.classList.add("image");
-    modalImage.classList.add("is-128x128");
-    modalImage.setAttribute("src", bookmark[i].recipeLoop.imageThumbnail); // This needs to be updated
-    modalReceipeDiv.classList.add("column");
-    modalDeleteDiv.classList.add("column");
-    modalDeleteDiv.classList.add("is-narrow");
-    modalDeleteBtn.setAttribute("modalIndex", [i]);
-    modalDeleteBtn.classList.add("is-large");
-    modalDeleteBtn.classList.add("delete");
-
-    /* Appending Elements to the modal */
-    bookmarkAnchor.appendChild(modalColumnsDiv);
-    modalColumnsDiv.appendChild(modalImageDiv);
-    modalImageDiv.appendChild(modalImage);
-    modalColumnsDiv.appendChild(modalReceipeDiv);
-    modalReceipeDiv.appendChild(modalReceipeH2);
-    modalReceipeDiv.appendChild(modalCuisineP);
-    modalReceipeDiv.appendChild(modalCookTimeP);
-    modalReceipeDiv.appendChild(modalCaloriesP);
-    modalColumnsDiv.appendChild(modalDeleteDiv);
-    modalDeleteDiv.appendChild(modalDeleteBtn);
-
-    /* Content Updates */
-    modalReceipeH2.innerHTML = bookmark[i].recipeLoop.recipeName; // This needs to be updated
-    modalCuisineP.innerHTML = "Cuisine: " + bookmark[i].recipeLoop.cuisineType; // This needs to be updated
-    modalCookTimeP.innerHTML = "Cook Time: " + bookmark[i].recipeLoop.timeTaken + " minutes"; // This needs to be updated
-    modalCaloriesP.innerHTML = "Calories Per Serving: " + Math.floor((bookmark[i].recipeLoop.calories) / (bookmark[i].recipeLoop.yield)); // This needs to be updated
-
+  console.log("bookmarkModalTrigger has run");
+  bookmark = JSON.parse(localStorage.getItem('bookmarkRecipes'));
+   if (bookmark === null ) {
+    console.log("Bookmark was null");
+    bookmark = [];
+  };
+  if (bookmark.length === 0) {
+    console.log("bookmark.length is 0");
+    bookmarkAnchor.innerHTML = "Were sorry you have no bookmarks saved. We hope you find some delicious receipies!";
   }
+  if (bookmarkAnchor.childElementCount > 0) {
+    console.log("boommarkAmchor has "+ bookmarkAnchor.childElementCount + "children");
+    for (let i = 0; i < bookmarkAnchor.childElementCount; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
+      bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
+    }
+  }
+
+  // modalImageA.setAttribute("href", bookmark[i].recipeLoop.url);
+  // modalImageA.setAttribute("target", "_blank");
+
+
+  if (bookmark.length > 0) {
+    console.log("Bookmark.length is " + bookmark.length);
+    bookmarkAnchor.innerHTML = "";
+    for (let i = 0; i < bookmark.length; i++) {
+      console.log([i]);
+      /* Creation of Elements*/
+      var modalColumnsDiv = document.createElement("div");
+      var modalImageDiv = document.createElement("div");
+      var modalImageA = document.createElement("a");      
+      var modalImage = document.createElement("img");
+      var modalReceipeDiv = document.createElement("div");
+      var modalReceipeH2 = document.createElement("h2");
+      var modalReceipeA = document.createElement("a");
+      var modalCuisineP = document.createElement("p");
+      var modalCookTimeP = document.createElement("p");
+      var modalCaloriesP = document.createElement("p");
+      var modalDeleteDiv = document.createElement("div");
+      var modalDeleteBtn = document.createElement("button");
+
+      /* Class and Attribute updates */
+      modalColumnsDiv.classList.add("columns");
+      modalColumnsDiv.classList.add("is-1");
+      modalImageDiv.classList.add("column");
+      modalImageDiv.classList.add("is-narrow");
+      modalImageA.setAttribute("href", bookmark[i].recipeLoop.url);
+      modalImageA.setAttribute("target", "_blank");
+      modalImage.classList.add("image");
+      modalImage.classList.add("is-128x128");
+      modalImage.setAttribute("src", bookmark[i].recipeLoop.imageThumbnail);
+      modalImage.setAttribute("alt", bookmark[i].recipeLoop.recipeName);
+      modalImage.setAttribute("title", bookmark[i].recipeLoop.recipeName);
+      modalReceipeA.setAttribute("href", bookmark[i].recipeLoop.url);
+      modalReceipeA.setAttribute("target", "_blank");
+      modalReceipeA.classList.add("is-size-4");
+      modalReceipeDiv.classList.add("column");
+      modalDeleteDiv.classList.add("column");
+      modalDeleteDiv.classList.add("is-narrow");
+      modalDeleteBtn.setAttribute("modalIndex", [i]);
+      modalDeleteBtn.classList.add("is-large");
+      modalDeleteBtn.classList.add("delete");
+      modalDeleteBtn.classList.add("modalDelete");
+
+      /* Appending Elements to the modal */
+      bookmarkAnchor.appendChild(modalColumnsDiv);
+      modalColumnsDiv.appendChild(modalImageDiv);
+      modalImageDiv.appendChild(modalImageA);
+      modalImageA.appendChild(modalImage);
+      modalColumnsDiv.appendChild(modalReceipeDiv);
+      modalReceipeDiv.appendChild(modalReceipeA);
+      modalReceipeA.appendChild(modalReceipeH2);
+      modalReceipeDiv.appendChild(modalCuisineP);
+      modalReceipeDiv.appendChild(modalCookTimeP);
+      modalReceipeDiv.appendChild(modalCaloriesP);
+      modalColumnsDiv.appendChild(modalDeleteDiv);
+      modalDeleteDiv.appendChild(modalDeleteBtn);
+
+      /* Content Updates */
+      modalReceipeH2.innerHTML = bookmark[i].recipeLoop.recipeName; // This needs to be updated
+      modalCuisineP.innerHTML = "Cuisine: " + bookmark[i].recipeLoop.cuisineType; // This needs to be updated
+      modalCookTimeP.innerHTML = "Cook Time: " + bookmark[i].recipeLoop.timeTaken + " minutes"; // This needs to be updated
+      modalCaloriesP.innerHTML = "Calories Per Serving: " + Math.floor((bookmark[i].recipeLoop.calories) / (bookmark[i].recipeLoop.yield)); // This needs to be updated
+
+    }
+  }
+}
+
+// array.remove(index)
+
+function bookmarkSingleDelete (event){
+  console.log("bookmarkSingleDelete has run");
+  console.log(event.target.getAttribute('modalIndex'));
+  if (event.target.getAttribute('modalIndex') === null) {
+    return;
+  };
+  numToDelete = event.target.getAttribute('modalIndex');
+  console.log(numToDelete);
+  bookmark.splice(numToDelete, 1);
+  localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+  bookmarkModalTrigger();
 }
