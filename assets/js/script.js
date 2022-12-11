@@ -46,6 +46,10 @@ var previousBtn = document.getElementById("previous");
 var nextBtn = document.getElementById("next");
 var recipeArrayLength = 0;
 var recipeArray = [];
+var recipeArray2 = [];
+var recipeArray3 = [];
+var recipeArray4 = [];
+var recipeArray5 = [];
 
 var firstLoad = true;
 
@@ -162,7 +166,8 @@ function edamamAPI(event) {
         };
         recipeArray.push({ recipeLoop });
       }
-
+      if (data._links.next.href !== null) {
+      }
       localStorage.setItem("recipes", JSON.stringify(recipeArray));
 
       console.log("----------\n Trimmed down API Response Data \n----------");
@@ -528,7 +533,7 @@ function clearResults() {
     clearBtnDisplay.classList = "show";
   }
   clearBtn.addEventListener("click", () => {
-    localStorage.clear();
+    localStorage.removeItem("recipes");
     location.reload();
   });
 }
