@@ -58,9 +58,7 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu1" role="menu">
                     <div class="dropdown-content">
-                      <a class="dropdown-item" id="dropdown-item-1-1">
-                        Any
-                      </a>
+                      <a class="dropdown-item" id="dropdown-item-1-1"> Any </a>
                       <a class="dropdown-item" id="dropdown-item-1-2">
                         American
                       </a>
@@ -73,7 +71,7 @@
                       <a class="dropdown-item" id="dropdown-item-1-5">
                         Caribbean
                       </a>
-                      <a  class="dropdown-item" id="dropdown-item-1-6">
+                      <a class="dropdown-item" id="dropdown-item-1-6">
                         Central Europe
                       </a>
                       <a class="dropdown-item" id="dropdown-item-1-7">
@@ -128,7 +126,11 @@
                 <br />
                 <div class="dropdown" id="dropdown-2">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <button
+                      class="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu3"
+                    >
                       <span id="dropdown-btn2-html">Any</span>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -140,7 +142,9 @@
                       <a href="#" class="dropdown-item" id="dropdown-item-2-1">
                         Any
                       </a>
-                      <a class="dropdown-item" id="dropdown-item-2-2">Breakfast</a>
+                      <a class="dropdown-item" id="dropdown-item-2-2"
+                        >Breakfast</a
+                      >
                       <a class="dropdown-item" id="dropdown-item-2-3">Lunch</a>
                       <a class="dropdown-item" id="dropdown-item-2-4">Dinner</a>
                       <a class="dropdown-item" id="dropdown-item-2-5">Snack</a>
@@ -151,9 +155,11 @@
                 <br />
               </li>
               <li>
-                <h3 class="label has-text-white is-size-5">In how many minutes or less would you like the cooking time
-                  to be?</h3>
-                <br>
+                <h3 class="label has-text-white is-size-5">
+                  In how many minutes or less would you like the cooking time to
+                  be?
+                </h3>
+                <br />
                 <div class="dropdown" id="dropdown-3">
                   <div class="dropdown-trigger">
                     <button
@@ -169,24 +175,12 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu3" role="menu">
                     <div class="dropdown-content">
-                      <a class="dropdown-item" id="dropdown-item-3-1">
-                        Any
-                      </a>
-                      <a class="dropdown-item" id="dropdown-item-3-2">
-                        20
-                      </a>
-                      <a class="dropdown-item" id="dropdown-item-3-3">
-                        40
-                      </a>
-                      <a class="dropdown-item" id="dropdown-item-3-4">
-                        60
-                      </a>
-                      <a class="dropdown-item" id="dropdown-item-3-5">
-                        90
-                      </a>
-                      <a class="dropdown-item" id="dropdown-item-3-6">
-                        120
-                      </a>
+                      <a class="dropdown-item" id="dropdown-item-3-1"> Any </a>
+                      <a class="dropdown-item" id="dropdown-item-3-2"> 20 </a>
+                      <a class="dropdown-item" id="dropdown-item-3-3"> 40 </a>
+                      <a class="dropdown-item" id="dropdown-item-3-4"> 60 </a>
+                      <a class="dropdown-item" id="dropdown-item-3-5"> 90 </a>
+                      <a class="dropdown-item" id="dropdown-item-3-6"> 120 </a>
                     </div>
                   </div>
                 </div>
@@ -197,23 +191,39 @@
                 Enter the ingredients you would like in your dish.
               </h3>
               <li>
-                <input id="ingredient1" class="input" type="text" placeholder="Ingredient #1">
+                <input
+                  id="ingredient1"
+                  class="input"
+                  type="text"
+                  placeholder="Ingredient #1"
+                />
               </li>
               <br />
               <li>
-
-                <input id="ingredient2" class="input" type="text" placeholder="Ingredient #2">
+                <input
+                  id="ingredient2"
+                  class="input"
+                  type="text"
+                  placeholder="Ingredient #2"
+                />
               </li>
               <br />
               <li>
-
-                <input id="ingredient3" class="input" type="text" placeholder="Ingredient #3">
+                <input
+                  id="ingredient3"
+                  class="input"
+                  type="text"
+                  placeholder="Ingredient #3"
+                />
               </li>
               <br />
               <li>
-
-                <input id="ingredient4" class="input" type="text" placeholder="Ingredient #4">
-
+                <input
+                  id="ingredient4"
+                  class="input"
+                  type="text"
+                  placeholder="Ingredient #4"
+                />
               </li>
             </ul>
             <br />
@@ -222,12 +232,21 @@
               <button id="searchBtn" class="button is-large button is-primary">
                 Search
               </button>
-              <img src="assets/images/Edamam_Badge_Light_v2.png" class>
             </li>
             <br />
+            <li class="hidden" id="clearBtnDisplay">
+              <button class="button is-large button is-danger" id="clearBtn">
+                Clear Results
+              </button>
+            </li>
+            <br />
+            <div>
+              <img src="assets/images/Edamam_Badge_Light_v2.png" class="mr-6" />
+            </div>
+            <br />
             <div class="is-inline-block is-right">
-              <img id="giphy"/>
-              <img id="giphyAttribution">
+              <img id="giphy" />
+              <img id="giphyAttribution" />
             </div>
 
             <br />
@@ -244,30 +263,31 @@
               <div class="columns is-multiline" id="content-area">
                 <!-- Recipe List is generated via Java Script -->
               </div>
-              <nav class="pagination" role="navigation" aria-label="pagination">
-                <a
-                  class="pagination-previous is-disabled"
-                  title="This is the first page"
-                  >Previous</a
+              <div id="nav-area" class="">
+                <nav
+                  class="pagination is-centered"
+                  role="navigation"
+                  aria-label="pagination"
                 >
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                  <li>
-                    <a
-                      class="pagination-link is-current"
-                      aria-label="Page 1"
-                      aria-current="page"
-                      >1</a
-                    >
-                  </li>
-                  <li>
-                    <a class="pagination-link" aria-label="Goto page 2">2</a>
-                  </li>
-                  <li>
-                    <a class="pagination-link" aria-label="Goto page 3">3</a>
-                  </li>
-                </ul>
-              </nav>
+                  <a
+                    class="pagination-previous has-background-light"
+                    id="previous"
+                    >Previous</a
+                  >
+                  <a class="pagination-next has-background-light" id="next"
+                    >Next page</a
+                  >
+                  <ul class="pagination-list">
+                    <li>
+                      <a
+                        class="pagination-link has-background-light"
+                        aria-label="Goto page 1"
+                        >1</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </ul>
           </div>
         </div>
@@ -276,43 +296,40 @@
     <button class="js-modal-trigger" data-target="bookmarks">
       Open JS example modal
     </button>
-  </div>
 
-<!-- MODAL TESTING -->
-<div id="bookmarks" class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title has-text-centered">Bookmarked Recipies</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body" id="bookmarkAnchor">
-
-      <div class="columns is-1">
-        <div class="column is-narrow">
-          <img class="image is-128x128"
-            src=https://edamam-product-images.s3.amazonaws.com/web-img/5fe/5fe11a25ce174a865d6f677c076ce262.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDoaCXVzLWVhc3QtMSJIMEYCIQDNJ4NuYmT2GNGFLOdpJiF5AdB%2FRaPffukuNojG2zhbzgIhAN7E%2FrWPbcOEpctaLlxMlAAW2SjGcDd74fyIjMALb0P0KswECGMQABoMMTg3MDE3MTUwOTg2IgzACiS5JZubjEFBqewqqQQbGYg1cVlCuVBzt5l3Sg3%2BYd1oH7cP2SbHZIGMe0cZGrthFU9qAVVvLM0vX0IGjWIgbTAgV19HndTc8g9ADHdb%2FrFCnbIUxhBBbmo2Hcqs9Ux1Kfmb4SEq9sApwG4ucN7vZM6bLLq6%2FrBESi6OuQT1ItcVCcA2IydDwo2HZTbZmrz6kGzQEoba6K%2BOls8CZF3%2FuswnGomHHlbEI8c1VuvYjXlIakHTyjVdyl60%2FmWW1fu%2B9mUlX4%2Bp0VrZTXhdTmw3YkIh8uAXDpF6cah8EolXq7CXXn7rDDaLHKvpq5J84yM%2FRnHtedggv8NaorDuvJDXf%2F2pPElN6OXvWtYU%2BCHKTfxptgIdD0Kk8BD21N9Mc6TUwtgTQBkATb3LAUD2VDLudOlXWsv7llSL%2FBwFuo0q0EohEY07whwfYWPPgwRLeCc8Rcc3SanqKNTf7se369uOTFBErHnM5zzYUoUh33QtUrQP4Q%2F5NMJdzhEHZVeCFtbVGwq18GKmqk6ewB6pgbzwTBymlFQGQ1FZmw4RpBN85WaMa32r7%2FKyIJ5JPn8z%2B%2F6uaUquRP7iKb2gHX7k6giuYfdhFmf1JtxL7%2FIdE0VageLC54PYA7xM%2ByQSYsdtrtDoUXb5goyAC0hsWPIFzyKmwvpr6eG%2BzcUaBrTb7Qk0QhFb3oShJV%2FWEjNjA%2Bb0RwYXGMNElc0L3e7rzeYuYYO4pGw8CcfcLwRulOaKXtSSTEcL%2BD%2B%2BV2LMMKXtzZwGOqgB9Cz3B1owiRT5La51%2Bnx4do72cQz9701xIWaTbYL5Yi0Sbyos0k1EtZsl%2Fphdo8ziEHBE7MPI8ErUbut8aDnQx%2BSNUB2ctuyYhGUIFUsZ21YB%2BSgrKwM04pJTZkrLGbw2bajfwNY118aHybIEkVbm4pblnrUidJAFVDBEdVV5AzVfg2IPrIHEitgRsBYGaFkSMbWXXTk%2FI9%2FhwLaCoJXFMPaKg7pbpdHp&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20221209T183647Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=ASIASXCYXIIFCOMSD4VS%2F20221209%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=4eb7545ce2a410971463e71cf5a59ab0a38ac8f54ac87f40c586f75b8a8d8aec>
-        </div>
-        <div class="column">
-          <h2>Receipe</h2>
-          <p>Cuisine Type: SAMPLE</p>
-          <p>Cook Time: 60</p>
-          <p>Calories Per Serving: 250</p>
-        </div>
-        <div class="column is-narrow">
-          <button class="delete is-large"></button>
-        </div>
+    <!-- MODAL TESTING -->
+    <div id="bookmarks" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title has-text-centered">Bookmarked Recipies</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body" id="bookmarkAnchor">
+          <div class="columns is-1">
+            <div class="column is-narrow">
+              <img class="image is-128x128"
+              src=https://edamam-product-images.s3.amazonaws.com/web-img/5fe/5fe11a25ce174a865d6f677c076ce262.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDoaCXVzLWVhc3QtMSJIMEYCIQDNJ4NuYmT2GNGFLOdpJiF5AdB%2FRaPffukuNojG2zhbzgIhAN7E%2FrWPbcOEpctaLlxMlAAW2SjGcDd74fyIjMALb0P0KswECGMQABoMMTg3MDE3MTUwOTg2IgzACiS5JZubjEFBqewqqQQbGYg1cVlCuVBzt5l3Sg3%2BYd1oH7cP2SbHZIGMe0cZGrthFU9qAVVvLM0vX0IGjWIgbTAgV19HndTc8g9ADHdb%2FrFCnbIUxhBBbmo2Hcqs9Ux1Kfmb4SEq9sApwG4ucN7vZM6bLLq6%2FrBESi6OuQT1ItcVCcA2IydDwo2HZTbZmrz6kGzQEoba6K%2BOls8CZF3%2FuswnGomHHlbEI8c1VuvYjXlIakHTyjVdyl60%2FmWW1fu%2B9mUlX4%2Bp0VrZTXhdTmw3YkIh8uAXDpF6cah8EolXq7CXXn7rDDaLHKvpq5J84yM%2FRnHtedggv8NaorDuvJDXf%2F2pPElN6OXvWtYU%2BCHKTfxptgIdD0Kk8BD21N9Mc6TUwtgTQBkATb3LAUD2VDLudOlXWsv7llSL%2FBwFuo0q0EohEY07whwfYWPPgwRLeCc8Rcc3SanqKNTf7se369uOTFBErHnM5zzYUoUh33QtUrQP4Q%2F5NMJdzhEHZVeCFtbVGwq18GKmqk6ewB6pgbzwTBymlFQGQ1FZmw4RpBN85WaMa32r7%2FKyIJ5JPn8z%2B%2F6uaUquRP7iKb2gHX7k6giuYfdhFmf1JtxL7%2FIdE0VageLC54PYA7xM%2ByQSYsdtrtDoUXb5goyAC0hsWPIFzyKmwvpr6eG%2BzcUaBrTb7Qk0QhFb3oShJV%2FWEjNjA%2Bb0RwYXGMNElc0L3e7rzeYuYYO4pGw8CcfcLwRulOaKXtSSTEcL%2BD%2B%2BV2LMMKXtzZwGOqgB9Cz3B1owiRT5La51%2Bnx4do72cQz9701xIWaTbYL5Yi0Sbyos0k1EtZsl%2Fphdo8ziEHBE7MPI8ErUbut8aDnQx%2BSNUB2ctuyYhGUIFUsZ21YB%2BSgrKwM04pJTZkrLGbw2bajfwNY118aHybIEkVbm4pblnrUidJAFVDBEdVV5AzVfg2IPrIHEitgRsBYGaFkSMbWXXTk%2FI9%2FhwLaCoJXFMPaKg7pbpdHp&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20221209T183647Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=ASIASXCYXIIFCOMSD4VS%2F20221209%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=4eb7545ce2a410971463e71cf5a59ab0a38ac8f54ac87f40c586f75b8a8d8aec>
+            </div>
+            <div class="column">
+              <h2>Receipe</h2>
+              <p>Cuisine Type: SAMPLE</p>
+              <p>Cook Time: 60</p>
+              <p>Calories Per Serving: 250</p>
+            </div>
+            <div class="column is-narrow">
+              <button class="delete is-large"></button>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" id="clearBookmarks">
+            Remove All Bookmarks
+          </button>
+        </footer>
       </div>
-      
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-success" id="clearBookmarks">Remove All Bookmarks</button>
-    </footer>
-  </div>
-</div>
+    </div>
 
-
-<script src="./assets/js/script.js"></script>
-</body>
-
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
