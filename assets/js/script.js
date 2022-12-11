@@ -168,6 +168,7 @@ function edamamAPI(event) {
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
           yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
         };
         recipeArray.push({ recipeLoop });
       }
@@ -409,6 +410,7 @@ function recipeDisplay() {
     var timeTaken = document.createElement("p");
     var servings = document.createElement("p");
     var createA = document.createElement("a");
+    var createA2 = document.createElement("a");
     var bookmarkBtn = document.createElement("button");
     //   /* Element Updates */
     columnDivEl.classList.add("column");
@@ -438,6 +440,7 @@ function recipeDisplay() {
     servings.classList.add("mb-0");
     servings.classList.add("servings");
     createA.classList.add("anchor");
+    createA2.classList.add("anchor2");
     recipeImg.classList.add("recipeImage");
     cuisineName.classList.add("has-text-info");
     bookmarkBtn.classList.add("pb-1");
@@ -452,13 +455,16 @@ function recipeDisplay() {
     recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
     createA.setAttribute("href", recipeArray[i].recipeLoop.url);
     createA.setAttribute("target", "_blank");
+    createA2.setAttribute("href", recipeArray[i].recipeLoop.recipeUrl);
+    createA2.setAttribute("target", "_blank");
     /* Element Appending */
     contentArea.appendChild(columnDivEl);
     columnDivEl.appendChild(cardDivEl);
     cardDivEl.appendChild(cardImgDivEl);
     cardDivEl.appendChild(cardContentDiv);
     cardImgDivEl.appendChild(figureEl);
-    figureEl.appendChild(recipeImg);
+    figureEl.appendChild(createA2);
+    createA2.appendChild(recipeImg);
     cardContentDiv.appendChild(bookmarkBtn);
     bookmarkBtn.textContent = "Bookmark Recipe";
     cardContentDiv.appendChild(createA);
@@ -559,6 +565,7 @@ nextBtn.addEventListener("click", function nextPage() {
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
           yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
         };
         page.push({ recipeLoop });
       }
@@ -573,6 +580,7 @@ nextBtn.addEventListener("click", function nextPage() {
   var calories = document.querySelectorAll(".calories");
   var servings = document.querySelectorAll(".servings");
   var anchor = document.querySelectorAll(".anchor");
+  var anchor2 = document.querySelectorAll(".anchor2");
   var image = document.querySelectorAll(".recipeImage");
   var newPage = JSON.parse(localStorage.NewPage);
   console.log(newPage);
@@ -584,9 +592,11 @@ nextBtn.addEventListener("click", function nextPage() {
     }
     for (var i = 0; i < timeTaken.length; i++) {
       var timeTakenText = timeTaken[i];
-
       timeTakenText.innerHTML =
         "This will take " + newPage[i].recipeLoop.timeTaken + " min to make.";
+      if (newPage[i].recipeLoop.timeTaken === 0) {
+        timeTaken.innerHTML = "This can be made in no time!";
+      }
     }
     for (var i = 0; i < calories.length; i++) {
       var caloriesText = calories[i];
@@ -606,6 +616,11 @@ nextBtn.addEventListener("click", function nextPage() {
       var anchorElement = anchor[i];
 
       anchorElement.setAttribute("href", newPage[i].recipeLoop.url);
+    }
+    for (var i = 0; i < anchor2.length; i++) {
+      var anchor2Element = anchor2[i];
+
+      anchor2Element.setAttribute("href", newPage[i].recipeLoop.recipeUrl);
     }
     for (var i = 0; i < image.length; i++) {
       var imageElement = image[i];
