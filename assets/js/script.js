@@ -158,15 +158,16 @@ function edamamAPI(event) {
       /* Cleaning out old search data*/
       recipeArray = [];
       /* Data processing*/
-      var newPage = data._links.next.href;
-      localStorage.setItem("page_link", JSON.stringify(newPage));
-      var newPage = JSON.parse(localStorage.page_link);
+      console.log(data);
       if (data.count < 20) {
         navArea.classList = "hidden";
         hiddenTest.classList = "show";
       } else if (data.count > 20) {
         navArea.classList = "show";
         hiddenTest.classList = "hidden";
+        var newPage = data._links.next.href;
+        localStorage.setItem("page_link", JSON.stringify(newPage));
+        var newPage = JSON.parse(localStorage.page_link);
       }
 
       for (let i = 0; i < data.hits.length; i++) {
