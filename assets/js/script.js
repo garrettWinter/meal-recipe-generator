@@ -1,4 +1,3 @@
-console.log("Connected");
 /* Global Variables  */
 var contentArea = document.getElementById("content-area");
 var dropdown1 = document.getElementById("dropdown-1");
@@ -41,19 +40,29 @@ var ingredient1Input = document.querySelector("#ingredient1");
 var ingredient2Input = document.querySelector("#ingredient2");
 var ingredient3Input = document.querySelector("#ingredient3");
 var ingredient4Input = document.querySelector("#ingredient4");
-var recipeContent = document.querySelector('content');
+var recipeContent = document.querySelector("content");
+var previousBtn = document.getElementById("previous");
+var nextBtn = document.getElementById("next");
+var hiddenTest = document.getElementById("messageText");
+var navArea = document.getElementById("nav-area");
 var recipeArrayLength = 0;
-
+var currentPage = 0;
 var recipeArray = [];
+var page = [];
+var currentData = [];
+var urlArray = [];
+var pastUrls = [];
+
 var firstLoad = true;
 
-var receipeList = document.querySelector('#receipeList')
-var searchBoxText = document.querySelector('#searchBoxText')
-var searchBtn = document.querySelector('#searchBtn');
+var receipeList = document.querySelector("#receipeList");
+var searchBoxText = document.querySelector("#searchBoxText");
+var searchBtn = document.querySelector("#searchBtn");
+var clearBtn = document.getElementById("clearBtn");
+var clearBtnDisplay = document.getElementById("clearBtnDisplay");
 var bookmarkAnchor = document.querySelector("#bookmarkAnchor");
-var clearBookmarks = document.querySelector('#clearBookmarks');
-var modalDelete = document.querySelector('.modalDelete'); 
-
+var clearBookmarks = document.querySelector("#clearBookmarks");
+var modalDelete = document.querySelector(".modalDelete");
 
 /* Start of Edamam API Variables */
 var edamamApiKey = "e6371ff056c6f2217c6e6095d104cdeb";
@@ -74,7 +83,6 @@ var giphy = document.querySelector("#giphy");
 var giphyAttribution = document.querySelector("#giphyAttribution");
 
 function edamamURLBuilder() {
-  console.log("edamamURLBuilder has been trigged");
   /* Updating the variables to so they have most recent values */
   cuisineType = dropdownBtn1.innerText;
   mealType = dropdownBtn2.innerText;
@@ -86,48 +94,60 @@ function edamamURLBuilder() {
 
   /* ---Edamam Request URL building Logic--- */
 
-  if (cuisineType != 'Any') {
-    cuisineType = '&cuisineType=' + cuisineType;
-  } else (cuisineType = '')
+  if (cuisineType != "Any") {
+    cuisineType = "&cuisineType=" + cuisineType;
+  } else cuisineType = "";
 
-  if (mealType != 'Any') {
-    mealType = '&mealType=' + mealType;
-  } else (mealType = '')
+  if (mealType != "Any") {
+    mealType = "&mealType=" + mealType;
+  } else mealType = "";
 
-  if (time != 'Any') {
-    time = '&time=' + time;
-  } else (time = '')
+  if (time != "Any") {
+    time = "&time=" + time;
+  } else time = "";
 
-  if (ingredient1 != '') {
+  if (ingredient1 != "") {
     ingredient1 = ingredient1 + "%20";
-  } else (ingredient1 = '')
+  } else ingredient1 = "";
 
-  if (ingredient2 != '') {
+  if (ingredient2 != "") {
     ingredient2 = ingredient2 + "%20";
-  } else (ingredient2 = '')
+  } else ingredient2 = "";
 
-  if (ingredient3 != '') {
+  if (ingredient3 != "") {
     ingredient3 = ingredient3 + "%20";
-  } else (ingredient3 = '')
+  } else ingredient3 = "";
 
-  if (ingredient4 != '') {
+  if (ingredient4 != "") {
     ingredient4 = ingredient4 + "%20";
-  } else (ingredient4 = '')
+  } else ingredient4 = "";
 
   ingredients = ingredient1 + ingredient2 + ingredient3 + ingredient4;
-  if (ingredients != '') {
+  if (ingredients != "") {
     ingredients = "&q=" + ingredient1 + ingredient2 + ingredient3 + ingredient4;
   }
 
-  requestUrl = "https://api.edamam.com/api/recipes/v2?imageSize=REGULAR&type=public&app_key=" + edamamApiKey + "&app_id=" + edamamApiID + cuisineType + mealType + time + ingredients;
-  requestUrl = requestUrl.replaceAll(' ', '%20'); //Finds any spaces and replaces these with %20
-
+  requestUrl =
+    "https://api.edamam.com/api/recipes/v2?imageSize=REGULAR&type=public&app_key=" +
+    edamamApiKey +
+    "&app_id=" +
+    edamamApiID +
+    cuisineType +
+    mealType +
+    time +
+    ingredients;
+  requestUrl = requestUrl.replaceAll(" ", "%20"); //Finds any spaces and replaces these with %20
+  pastUrls.push([requestUrl]);
 }
 
 /* This function performs the Edamam API call to gather the recipe data and stores it locally */
 function edamamAPI(event) {
-  console.log("edamamAPI has been trigged");
-  searchBoxText.textContent = "Results for corresponding recipes will appear below:";
+  currentPage = 0;
+  localStorage.setItem("CurrentPage", currentPage);
+  pastUrls = [];
+
+  searchBoxText.textContent =
+    "Results for corresponding recipes will appear below:";
   edamamURLBuilder();
   /* Setting the URL and triggering the GET API */
   fetch(requestUrl)
@@ -135,11 +155,20 @@ function edamamAPI(event) {
       return response.json();
     })
     .then(function (data) {
-      console.log("----------\n Recipe API Response Data \n----------");
-      console.log(data);
-      /* Clearning out old search data*/
+      /* Cleaning out old search data*/
       recipeArray = [];
       /* Data processing*/
+      var newPage = data._links.next.href;
+      localStorage.setItem("page_link", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.page_link);
+      if (data.count < 20) {
+        navArea.classList = "hidden";
+        hiddenTest.classList = "show";
+      } else if (data.count > 20) {
+        navArea.classList = "show";
+        hiddenTest.classList = "hidden";
+      }
+
       for (let i = 0; i < data.hits.length; i++) {
         recipeLoop = {
           recipeName: data.hits[i].recipe.label,
@@ -149,73 +178,66 @@ function edamamAPI(event) {
           calories: data.hits[i].recipe.calories,
           timeTaken: data.hits[i].recipe.totalTime,
           yield: data.hits[i].recipe.yield,
-          nextPage: data.hits[i]._links.self.href,
+          recipeUrl: data.hits[i].recipe.url,
         };
         recipeArray.push({ recipeLoop });
       }
-
-      localStorage.setItem('recipes', JSON.stringify(recipeArray));
-
-      console.log("----------\n Trimmed down API Response Data \n----------");
-      console.log(recipeArray);
+      localStorage.setItem("recipes", JSON.stringify(recipeArray));
       if (recipeArray.length === 0) {
-         searchBoxText.textContent = "No search results found based on your choices, please try again!";
-      };
+        searchBoxText.textContent =
+          "No search results found based on your choices, please try again!";
+      }
       userInput = "breakfast";
       recipeDisplay();
       giphyAPITesting();
+      clearResults();
     });
-    dropdownBtn1.innerText = "Any";
-    dropdownBtn2.innerText = "Any";
-    dropdownBtn3.innerText = "Any";
-    ingredient1Input.value = "";
-    ingredient2Input.value = "";
-    ingredient3Input.value = "";
-    ingredient4Input.value = "";
+  dropdownBtn1.innerText = "Any";
+  dropdownBtn2.innerText = "Any";
+  dropdownBtn3.innerText = "Any";
+  ingredient1Input.value = "";
+  ingredient2Input.value = "";
+  ingredient3Input.value = "";
+  ingredient4Input.value = "";
 }
 
 var userInput = "breakfast";
 
 function giphyAPITesting(event) {
-  console.log("Testing has been trigged")
-  console.log(mealType);
-  if (mealType === '') {
+  if (mealType === "") {
     userInput = "breakfast";
   } else if (mealType != "Any") {
     userInput = dropdownBtn2.textContent;
-  };
+  }
 
   if (recipeArray.length === 0) {
     userInput = "sad";
   }
-  console.log("Giphy Search Term:" + userInput);
 
   /* Setting the URL and triggering the GET API */
-  var requestUrl = 'https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=' + userInput + '%20food&rating=pg'
-  console.log(requestUrl);
+  var requestUrl =
+    "https://api.giphy.com/v1/gifs/random?api_key=4Ewuj4qufb1PfwbOQoBJi5DiNAlCeDpC&tag=" +
+    userInput +
+    "%20food&rating=pg";
+
   fetch(requestUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log('----------\n Giphy API Response Data \n----------');
-      console.log(data);
-      console.log(data.data.url);
       fixedImg = data.data.images.fixed_width.url;
-      console.log(fixedImg);
       giphy.setAttribute("src", fixedImg);
       giphyAttribution.setAttribute("src", "./assets/images/giphyimg.png");
     });
-};
+}
 function storageRetrieval() {
-   if (localStorage.recipes === undefined) {
-   console.log("if statement ran")
-    return;   
-    }
+  if (localStorage.recipes === undefined) {
+    return;
+  }
   recipeArray = JSON.parse(localStorage.getItem("recipes"));
   recipeDisplay();
 }
- storageRetrieval();
+storageRetrieval();
 
 /* Event Listen for Search Buttom Click */
 searchBtn.addEventListener("click", edamamAPI);
@@ -225,37 +247,30 @@ bookmarkAnchor.addEventListener("click", bookmarkSingleDelete);
 
 var bookmark;
 
-function bookmarkSave(event){
-  console.log("bookmarkSave has triggered");
-  console.log(event.target.getAttribute('bookmarkArray'));
-  console.log(event.target.classList);
-    if (event.target.getAttribute('bookmarkArray') === null){
-    console.log("caught the if");
+function bookmarkSave(event) {
+  if (event.target.getAttribute("bookmarkArray") === null) {
     return;
-  };
+  }
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
-  if (bookmark === null){
-    console.log("boomark is null");
+  if (bookmark === null) {
     bookmark = [];
-  };
-  dataAttribute = event.target.getAttribute('bookmarkArray');
-  console.log(recipeArray[dataAttribute]);
+  }
+  dataAttribute = event.target.getAttribute("bookmarkArray");
   bookmark.push(recipeArray[dataAttribute]);
-  localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+  localStorage.setItem("bookmarkRecipes", JSON.stringify(bookmark));
 }
 
-function clearAllBookmarks (){
-  console.log("clearAllBookmarks has run");
-  console.log(bookmarkAnchor.childElementCount);
+function clearAllBookmarks() {
   bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
-    /* Clearing any previously made child elements */
-    if (bookmarkAnchor.childElementCount > 0) {
-      for (let i = 0; i < bookmarkAnchor.childElementCount; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
-        bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
-      }
+  /* Clearing any previously made child elements */
+  if (bookmarkAnchor.childElementCount > 0) {
+    for (let i = 0; i < bookmarkAnchor.childElementCount; i++) {
+      // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
+      bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
     }
-    bookmark = [];
-    localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+  }
+  bookmark = [];
+  localStorage.setItem("bookmarkRecipes", JSON.stringify(bookmark));
 }
 /*----------------------------JS for the dropdown buttons--------------------------*/
 dropdown1.addEventListener("click", function () {
@@ -362,21 +377,18 @@ dropdownItem_3_6.addEventListener("click", function () {
 
 /* This function will take the data from reciepe (Edamam) API and display it onscreen. */
 function recipeDisplay() {
-  console.log("recipeDisplay has run");
-  if (recipeArray.length === 0){
+  if (recipeArray.length === 0) {
     return;
   }
   /* Clearing any previously made child elements */
-  console.log(recipeArrayLength);
   if (recipeArrayLength > 0) {
     for (let i = 0; i < recipeArrayLength; i++) {
       contentArea.removeChild(contentArea.children[0]);
     }
   }
-  // console.log(JSON.parse(localStorage.recipes)); // This could be deleted
+
   recipeArrayLength = recipeArray.length;
-  console.log("Length of Recipe Array is: " + recipeArray.length);
-  for (let i = 0; i < recipeArray.length; i++) {
+  for (let i = 0; i < recipeArrayLength; i++) {
     //   /* Element Creation for recipies*/
     var columnDivEl = document.createElement("div");
     var cardDivEl = document.createElement("div");
@@ -387,12 +399,18 @@ function recipeDisplay() {
     var cuisineName = document.createElement("p");
     var calories = document.createElement("p");
     var timeTaken = document.createElement("p");
+    var servings = document.createElement("p");
     var createA = document.createElement("a");
-    var bookmarkBtn = document.createElement("button")
+    var createA2 = document.createElement("a");
+    var bookmarkBtn = document.createElement("button");
     //   /* Element Updates */
     columnDivEl.classList.add("column");
-    columnDivEl.classList.add("is-2");
-    columnDivEl.classList.add("is-flex");
+    columnDivEl.classList.add("is-narrow");
+    columnDivEl.classList.add("is-three-quarters-mobile");
+    columnDivEl.classList.add("is-two-thirds-tablet");
+    columnDivEl.classList.add("is-half-desktop");
+    columnDivEl.classList.add("is-one-third-widescreen");
+    columnDivEl.classList.add("is-one-quarter-fullhd");
     cardDivEl.classList.add("card");
     cardImgDivEl.classList.add("card-image");
     figureEl.classList.add("image");
@@ -400,118 +418,142 @@ function recipeDisplay() {
     cardContentDiv.classList.add("card-content");
     cardContentDiv.classList.add("pt-1");
     cuisineName.classList.add("title");
-    cuisineName.classList.add("is-5");
     cuisineName.classList.add("ml-3");
     cuisineName.classList.add("mb-1");
+    cuisineName.classList.add("cuisineName");
     calories.classList.add("ml-3");
     calories.classList.add("mb-1");
+    calories.classList.add("calories");
     timeTaken.classList.add("ml-3");
     timeTaken.classList.add("mb-0");
+    timeTaken.classList.add("timeTaken");
+    servings.classList.add("ml-3");
+    servings.classList.add("mb-0");
+    servings.classList.add("servings");
+    createA.classList.add("anchor");
+    createA2.classList.add("anchor2");
+    recipeImg.classList.add("recipeImage");
     cuisineName.classList.add("has-text-info");
     bookmarkBtn.classList.add("pb-1");
+    bookmarkBtn.classList.add("ml-3");
     bookmarkBtn.classList.add("bookmark");
     bookmarkBtn.classList.add("button");
     bookmarkBtn.classList.add("is-primary");
-    bookmarkBtn.classList.add("is-small"); 
-    bookmarkBtn.setAttribute("bookmarkArray",[i]);
+    bookmarkBtn.classList.add("is-small");
+    bookmarkBtn.setAttribute("bookmarkArray", [i]);
     recipeImg.setAttribute("src", recipeArray[i].recipeLoop.imageThumbnail);
     recipeImg.setAttribute("alt", recipeArray[i].recipeLoop.recipeName);
     recipeImg.setAttribute("title", recipeArray[i].recipeLoop.recipeName);
     createA.setAttribute("href", recipeArray[i].recipeLoop.url);
     createA.setAttribute("target", "_blank");
+    createA2.setAttribute("href", recipeArray[i].recipeLoop.recipeUrl);
+    createA2.setAttribute("target", "_blank");
     /* Element Appending */
     contentArea.appendChild(columnDivEl);
     columnDivEl.appendChild(cardDivEl);
     cardDivEl.appendChild(cardImgDivEl);
     cardDivEl.appendChild(cardContentDiv);
     cardImgDivEl.appendChild(figureEl);
-    figureEl.appendChild(recipeImg);
+    figureEl.appendChild(createA2);
+    createA2.appendChild(recipeImg);
     cardContentDiv.appendChild(bookmarkBtn);
     bookmarkBtn.textContent = "Bookmark Recipe";
     cardContentDiv.appendChild(createA);
     cardContentDiv.appendChild(calories);
     cardContentDiv.appendChild(timeTaken);
-    cardContentDiv.appendChild(timeTaken);
+    cardContentDiv.appendChild(servings);
     createA.appendChild(cuisineName);
     cuisineName.textContent = recipeArray[i].recipeLoop.recipeName;
-    var meal = "This meal contains ";
-    var drink = "This drink contains ";
     calories.textContent =
-      meal + Math.trunc(recipeArray[i].recipeLoop.calories) + " calories.";
+      "This meal contains " +
+      Math.trunc(recipeArray[i].recipeLoop.calories) +
+      " calories.";
     timeTaken.textContent =
-      "This will take " + recipeArray[i].recipeLoop.timeTaken + " min to make";
+      "This will take " + recipeArray[i].recipeLoop.timeTaken + " min to make.";
+    servings.textContent =
+      "This will net you " + recipeArray[i].recipeLoop.yield + " servings.";
     if (recipeArray[i].recipeLoop.timeTaken === 0) {
       timeTaken.textContent = "This can be made in no time!";
+    }
+    if (recipeArray[i].recipeLoop.timeTaken > 60) {
+      var hour = recipeArray[i].recipeLoop.timeTaken / 60;
+      timeTaken.textContent =
+        "This will take " + Math.trunc(hour) + " hours to make";
+    }
+    if (recipeArray[i].recipeLoop.recipeName.length >= 25) {
+      cuisineName.classList.add("is-5");
+    } else {
+      cuisineName.classList.add("is-4");
     }
   }
 }
 
-
 /* Modal JS */
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Functions to open and close a modal
   function openModal($el) {
-    $el.classList.add('is-active');
+    $el.classList.add("is-active");
   }
 
   function closeModal($el) {
-    $el.classList.remove('is-active');
+    $el.classList.remove("is-active");
   }
 
   function closeAllModals() {
-    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+    (document.querySelectorAll(".modal") || []).forEach(($modal) => {
       closeModal($modal);
     });
   }
 
   // Add a click event on buttons to open a specific modal
-  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+  (document.querySelectorAll(".js-modal-trigger") || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
 
-    $trigger.addEventListener('click', () => {
+    $trigger.addEventListener("click", () => {
       bookmarkModalTrigger();
       openModal($target);
     });
   });
 
   // Add a click event on various child elements to close the parent modal
-  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-    const $target = $close.closest('.modal');
+  (
+    document.querySelectorAll(
+      ".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button"
+    ) || []
+  ).forEach(($close) => {
+    const $target = $close.closest(".modal");
 
-    $close.addEventListener('click', () => {
+    $close.addEventListener("click", () => {
       closeModal($target);
     });
   });
 
   // Add a keyboard event to close all modals
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener("keydown", (event) => {
     const e = event || window.event;
 
-    if (e.keyCode === 27) { // Escape key
+    if (e.keyCode === 27) {
+      // Escape key
       closeAllModals();
     }
   });
+  // Media Query
 });
 
-
 function bookmarkModalTrigger() {
-  console.log("bookmarkModalTrigger has run");
-  bookmark = JSON.parse(localStorage.getItem('bookmarkRecipes'));
-   if (bookmark === null ) {
-    console.log("Bookmark was null");
+  bookmark = JSON.parse(localStorage.getItem("bookmarkRecipes"));
+  if (bookmark === null) {
     bookmark = [];
-  };
+  }
   if (bookmark.length === 0) {
-    console.log("bookmark.length is 0");
-    bookmarkAnchor.innerHTML = "Were sorry you have no bookmarks saved. We hope you find some delicious receipies!";
+    bookmarkAnchor.innerHTML =
+      "Were sorry you have no bookmarks saved. We hope you find some delicious receipies!";
   }
   if (bookmarkAnchor.childElementCount > 0) {
-    console.log("boommarkAmchor has "+ bookmarkAnchor.childElementCount + "children");
-    for (let i = 0; i < bookmarkAnchor.childElementCount; i++) { // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
+    for (let i = 0; i < bookmarkAnchor.childElementCount; i++) {
+      // THis should be reverted to bookmark.length once displayBookmarksHistory has been completed.
       bookmarkAnchor.removeChild(bookmarkAnchor.children[0]);
     }
   }
@@ -519,16 +561,13 @@ function bookmarkModalTrigger() {
   // modalImageA.setAttribute("href", bookmark[i].recipeLoop.url);
   // modalImageA.setAttribute("target", "_blank");
 
-
   if (bookmark.length > 0) {
-    console.log("Bookmark.length is " + bookmark.length);
     bookmarkAnchor.innerHTML = "";
     for (let i = 0; i < bookmark.length; i++) {
-      console.log([i]);
       /* Creation of Elements*/
       var modalColumnsDiv = document.createElement("div");
       var modalImageDiv = document.createElement("div");
-      var modalImageA = document.createElement("a");      
+      var modalImageA = document.createElement("a");
       var modalImage = document.createElement("img");
       var modalReceipeDiv = document.createElement("div");
       var modalReceipeH2 = document.createElement("h2");
@@ -578,25 +617,117 @@ function bookmarkModalTrigger() {
 
       /* Content Updates */
       modalReceipeH2.innerHTML = bookmark[i].recipeLoop.recipeName; // This needs to be updated
-      modalCuisineP.innerHTML = "Cuisine: " + bookmark[i].recipeLoop.cuisineType; // This needs to be updated
-      modalCookTimeP.innerHTML = "Cook Time: " + bookmark[i].recipeLoop.timeTaken + " minutes"; // This needs to be updated
-      modalCaloriesP.innerHTML = "Calories Per Serving: " + Math.floor((bookmark[i].recipeLoop.calories) / (bookmark[i].recipeLoop.yield)); // This needs to be updated
-
+      modalCuisineP.innerHTML =
+        "Cuisine: " + bookmark[i].recipeLoop.cuisineType; // This needs to be updated
+      modalCookTimeP.innerHTML =
+        "Cook Time: " + bookmark[i].recipeLoop.timeTaken + " minutes"; // This needs to be updated
+      modalCaloriesP.innerHTML =
+        "Calories Per Serving: " +
+        Math.floor(
+          bookmark[i].recipeLoop.calories / bookmark[i].recipeLoop.yield
+        ); // This needs to be updated
     }
   }
 }
 
-// array.remove(index)
+nextBtn.addEventListener("click", function nextPage() {
+  currentPage++;
+  localStorage.setItem("CurrentPage", currentPage);
+  localStorage.setItem("PastUrls", JSON.stringify(pastUrls));
 
-function bookmarkSingleDelete (event){
-  console.log("bookmarkSingleDelete has run");
-  console.log(event.target.getAttribute('modalIndex'));
-  if (event.target.getAttribute('modalIndex') === null) {
+  recipeArray = [];
+  var pageLink = JSON.parse(localStorage.page_link);
+  localStorage.getItem(pageLink);
+  pastUrls.push([pageLink]);
+
+  fetch(pageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
+        };
+        recipeArray.push({ recipeLoop });
+      }
+
+      var newLink = data._links.next.href;
+
+      var newPage = recipeArray;
+      localStorage.setItem("page_link", JSON.stringify(newLink));
+      localStorage.setItem("recipes", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.recipes);
+      recipeDisplay();
+    });
+  recipeDisplay();
+});
+
+previousBtn.addEventListener("click", function previousPage() {
+  currentPage--;
+  var test = currentPage;
+  var pastUrls = JSON.parse(localStorage.getItem("PastUrls"));
+  var newPageLink = pastUrls[test];
+  recipeArray = [];
+  fetch(newPageLink)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      for (let i = 0; i < data.hits.length; i++) {
+        recipeLoop = {
+          recipeName: data.hits[i].recipe.label,
+          cuisineType: data.hits[i].recipe.cuisineType[0],
+          imageThumbnail: data.hits[i].recipe.images.REGULAR.url,
+          url: data.hits[i].recipe.shareAs,
+          calories: data.hits[i].recipe.calories,
+          timeTaken: data.hits[i].recipe.totalTime,
+          yield: data.hits[i].recipe.yield,
+          recipeUrl: data.hits[i].recipe.url,
+        };
+        recipeArray.push({ recipeLoop });
+      }
+      var newLink = data._links.next.href;
+      var newPage = recipeArray;
+      localStorage.setItem("page_link", JSON.stringify(newLink));
+      localStorage.setItem("recipes", JSON.stringify(newPage));
+      var newPage = JSON.parse(localStorage.recipes);
+      recipeDisplay();
+    });
+  recipeDisplay();
+});
+
+function clearResults() {
+  if (localStorage.length === 0) {
+    navArea.classList = "hidden";
+  } else {
+    clearBtnDisplay.classList = "show";
+  }
+  clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("recipes");
+    localStorage.removeItem("NewPage");
+    localStorage.removeItem("page_link");
+    localStorage.removeItem("PastUrls");
+    localStorage.removeItem("CurrentPage");
+    location.reload();
+  });
+}
+window.firstLoad = clearResults();
+window.reload = clearResults();
+
+function bookmarkSingleDelete(event) {
+  if (event.target.getAttribute("modalIndex") === null) {
     return;
-  };
-  numToDelete = event.target.getAttribute('modalIndex');
-  console.log(numToDelete);
+  }
+  numToDelete = event.target.getAttribute("modalIndex");
   bookmark.splice(numToDelete, 1);
-  localStorage.setItem('bookmarkRecipes', JSON.stringify(bookmark));
+  localStorage.setItem("bookmarkRecipes", JSON.stringify(bookmark));
   bookmarkModalTrigger();
 }
