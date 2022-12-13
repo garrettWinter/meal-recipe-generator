@@ -190,6 +190,11 @@ function edamamAPI(event) {
       if (recipeArray.length === 0) {
         searchBoxText.textContent =
           "No search results found based on your choices, please try again!";
+          if (recipeArrayLength > 0) {
+            for (let i = 0; i < recipeArrayLength; i++) {
+              contentArea.removeChild(contentArea.children[0]);
+            }
+          }
       }
       userInput = "breakfast";
       recipeDisplay();
